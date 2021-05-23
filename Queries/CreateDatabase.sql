@@ -19,7 +19,7 @@ CREATE TABLE "Recipe"
     Id INT PRIMARY KEY IDENTITY,
     Name NVARCHAR(20) NOT NULL,
     CookingTime TIME NOT NULL,
-    CookingTemperature TIME NOT NULL,
+    CookingTemperature INT NOT NULL,
     CategoryId INT NOT NULL,
     ImageData VARBINARY(MAX) NOT NULL,
 	Description NVARCHAR(50) NULL,
