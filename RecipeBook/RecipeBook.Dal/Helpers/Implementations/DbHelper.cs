@@ -21,10 +21,12 @@ namespace RecipeBook.Dal.Helpers.Implementations
             connection.ConnectionString = config.ConnectionString;
             await connection.OpenAsync();
 
-            SqlCommand command = new SqlCommand(sqlExpression, connection);
-            SqlDataReader reader = await command.ExecuteReaderAsync();
+            using (SqlCommand command = new SqlCommand(sqlExpression, connection))
+            {
+                SqlDataReader reader = await command.ExecuteReaderAsync();
+                return reader;
+            }
 
-            return reader;
         }
 
         public async Task<int> ExecuteNonQueryAsync(SqlConnection connection, string sqlExpression)
@@ -32,8 +34,10 @@ namespace RecipeBook.Dal.Helpers.Implementations
             connection.ConnectionString = config.ConnectionString;
             await connection.OpenAsync();
 
-            SqlCommand command = new SqlCommand(sqlExpression, connection);
-            return await command.ExecuteNonQueryAsync();
+            using (SqlCommand command = new SqlCommand(sqlExpression, connection))
+            {
+                return await command.ExecuteNonQueryAsync();
+            }
         }
 
         public async Task<SqlDataReader> ExecuteReaderAsync(SqlConnection connection, string sqlExpression, IEnumerable<SqlParameter> parameters)
@@ -41,11 +45,13 @@ namespace RecipeBook.Dal.Helpers.Implementations
             connection.ConnectionString = config.ConnectionString;
             await connection.OpenAsync();
 
-            SqlCommand command = new SqlCommand(sqlExpression, connection);
-            command.Parameters.AddRange(parameters.ToArray());
-            SqlDataReader reader = await command.ExecuteReaderAsync();
+            using (SqlCommand command = new SqlCommand(sqlExpression, connection))
+            {
+                command.Parameters.AddRange(parameters.ToArray());
 
-            return reader;
+                SqlDataReader reader = await command.ExecuteReaderAsync();
+                return reader;
+            }
         }
 
         public async Task<int> ExecuteNonQueryAsync(SqlConnection connection, string sqlExpression, IEnumerable<SqlParameter> parameters)
@@ -53,9 +59,11 @@ namespace RecipeBook.Dal.Helpers.Implementations
             connection.ConnectionString = config.ConnectionString;
             await connection.OpenAsync();
 
-            SqlCommand command = new SqlCommand(sqlExpression, connection);
-            command.Parameters.AddRange(parameters.ToArray());
-            return await command.ExecuteNonQueryAsync();
+            using (SqlCommand command = new SqlCommand(sqlExpression, connection))
+            {
+                command.Parameters.AddRange(parameters.ToArray());
+                return await command.ExecuteNonQueryAsync();
+            }
         }
     }
 }

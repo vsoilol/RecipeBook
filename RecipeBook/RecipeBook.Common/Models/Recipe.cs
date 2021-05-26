@@ -10,7 +10,7 @@ namespace RecipeBook.Common.Models
 
         public string Name { get; set; }
 
-        public DateTime CookingTime { get; set; }
+        public TimeSpan CookingTime { get; set; }
 
         public int CookingTemperature { get; set; }
 
