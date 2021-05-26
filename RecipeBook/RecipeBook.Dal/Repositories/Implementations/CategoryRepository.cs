@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace RecipeBook.Dal.Repositories.Implementations
 {
-    public class CategoryRepository : ICategoryRepository, IMapperBase<Category>
+    public class CategoryRepository : IRepository<Category>, IMapperBase<Category>
     {
         private readonly IDbHelper dbHelper;
 

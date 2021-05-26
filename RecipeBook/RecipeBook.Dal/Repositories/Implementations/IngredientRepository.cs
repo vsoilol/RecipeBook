@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace RecipeBook.Dal.Repositories.Implementations
 {
-    public class IngredientRepository : IIngredientRepository, IMapperBase<Ingredient>
+    public class IngredientRepository : IRepository<Ingredient>, IMapperBase<Ingredient>
     {
         private readonly IDbHelper dbHelper;
 
