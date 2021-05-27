@@ -4,4 +4,9 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\RecipeBook.Common\RecipeBook.Common.csproj" />
+    <ProjectReference Include="..\RecipeBook.Dal\RecipeBook.Dal.csproj" />
+  </ItemGroup>
+
 </Project>
