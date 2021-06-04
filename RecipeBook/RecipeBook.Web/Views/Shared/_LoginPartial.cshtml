@@ -1,0 +1,30 @@
+﻿
+
+<ul class="navbar-nav">
+    @if (User.Identity.IsAuthenticated)
+    {
+
+
+@if (User.IsInRole(Role.Admin.ToString()))
+{
+<li class="nav-item">
+    <a class="nav-link">Hi! Admin <i class="fas fa-user-tie"></i></a>
+</li> }
+                else
+                {
+<li class="nav-item">
+    <a class="nav-link">Hi! Editor <i class="fas fa-user-edit"></i></a>
+</li>}
+                <li class="nav-item">
+                    <form class="form-inline" asp-action="Logout" asp-controller="Account">
+                        <button type="submit" class="nav-link btn btn-link">Logout</button>
+                    </form>
+                </li>
+ }
+            else
+            {
+<li class="nav-item">
+    <a class="nav-link" asp-action="Login" asp-controller="Account">Login</a>
+</li>
+}
+</ul>

@@ -39,20 +39,34 @@
 
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
 
+                    @await Html.PartialAsync("_LoginPartial")
+
                     <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item dropdown text-white-50">
-                            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Редактор</a>
 
-                            <div class="dropdown-menu">
-
-                                <a class="dropdown-item" asp-controller="Editor" asp-action="GetAllRecipes">Рецепты</a>
-                                <a class="dropdown-item" asp-controller="Search" asp-action="Index">Поиск</a>
-                                <a class="dropdown-item" asp-controller="Category" asp-action="GetAll">Категории</a>
-                                <a class="dropdown-item" asp-controller="Ingredient" asp-action="GetAll">Ингредиенты</a>
-                                <a class="dropdown-item" asp-controller="Search" asp-action="Index">Пользователи</a>
-
-                            </div>
+                        <li class="nav-item">
+                            <a asp-controller="Search" asp-action="Index" class="nav-link">Поиск</a>
                         </li>
+
+                        @if (User.IsInRole(Role.Editor.ToString()) || User.IsInRole(Role.Admin.ToString()))
+                        {
+                            <li class="nav-item dropdown text-white-50">
+                                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Редактор</a>
+
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" asp-controller="Editor" asp-action="GetAllRecipes">Рецепты</a>
+                                    <a class="dropdown-item" asp-controller="Category" asp-action="GetAll">Категории</a>
+                                    <a class="dropdown-item" asp-controller="Ingredient" asp-action="GetAll">Ингредиенты</a>
+
+                                </div>
+                            </li>
+                        }
+
+                        @if (User.IsInRole(Role.Admin.ToString()))
+                        {
+                            <li class="nav-item">
+                                <a asp-controller="Admin" asp-action="GetAll" class="nav-link">Пользователи</a>
+                            </li>
+                        }
                     </ul>
 
                 </div>

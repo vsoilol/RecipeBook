@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using RecipeBook.Bll.Services.Interfaces;
+using RecipeBook.Common.Enums;
 using RecipeBook.Common.Models;
 using System;
 using System.Collections.Generic;
@@ -8,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace RecipeBook.Web.Controllers
 {
+    [Authorize(Roles = "Admin, Editor")]
     public class IngredientController : Controller
     {
         private readonly IIngredientService ingredientService;
@@ -17,6 +20,7 @@ namespace RecipeBook.Web.Controllers
             this.ingredientService = ingredientService;
         }
 
+        [AllowAnonymous]
         public async Task<IActionResult> GetAllAsync()
         {
             return View("Index", await ingredientService.GetAllAsync());
@@ -39,6 +43,19 @@ namespace RecipeBook.Web.Controllers
         public IActionResult Create()
         {
             return View();
+        }
+
+        public async Task<IActionResult> Update(int id)
+        {
+            return View(await ingredientService.GetByIdAsync(id));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Update(Ingredient ingredient)
+        {
+            await ingredientService.UpdateAsync(ingredient.Id, ingredient);
+
+            return await GetAllAsync();
         }
 
         [HttpPost]

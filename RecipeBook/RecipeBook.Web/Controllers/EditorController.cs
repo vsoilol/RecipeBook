@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RecipeBook.Bll.Services.Interfaces;
@@ -12,6 +13,7 @@ using System.Threading.Tasks;
 
 namespace RecipeBook.Web.Controllers
 {
+    [Authorize(Roles = "Admin, Editor")]
     public class EditorController : Controller
     {
         private readonly IRecipeService recipeService;
