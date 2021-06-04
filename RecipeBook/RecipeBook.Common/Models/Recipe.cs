@@ -21,5 +21,7 @@ namespace RecipeBook.Common.Models
         public string Description { get; set; }
 
         public string SequenceActions { get; set; }
+
+        public IEnumerable<int> IngredientsId { get; set; }
     }
 }

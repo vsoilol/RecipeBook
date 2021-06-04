@@ -1,4 +1,7 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using DinkToPdf;
+using DinkToPdf.Contracts;
+using Microsoft.Extensions.DependencyInjection;
+using RecipeBook.Bll.Converter;
 using RecipeBook.Bll.Services.Implementations;
 using RecipeBook.Bll.Services.Interfaces;
 using RecipeBook.Common.Models;
@@ -18,13 +21,18 @@ namespace RecipeBook.Di
 
             //Repositories
             services.AddSingleton<IRecipeRepository, RecipeRepository>();
-            services.AddSingleton<IRepository<Ingredient>, IngredientRepository>();
+            services.AddSingleton<IIngredientRepository, IngredientRepository>();
             services.AddSingleton<IRepository<Category>, CategoryRepository>();
+            services.AddSingleton<IRecipeIngredientRepository, RecipeIngredientRepository>();
 
             //Services
             services.AddSingleton<IRecipeService, RecipeService>();
             services.AddSingleton<IService<Category>, CategoryService>();
-            services.AddSingleton<IService<Ingredient>, IngredientService>();
+            services.AddSingleton<IIngredientService, IngredientService>();
+
+            //Converter
+            services.AddSingleton<IConverter>(new SynchronizedConverter(new PdfTools()));
+            services.AddSingleton<IPdfConverter, PdfConverter>();
         }
     }
 }

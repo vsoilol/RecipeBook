@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace RecipeBook.Dal.Repositories.Implementations
 {
-    public class IngredientRepository : IRepository<Ingredient>, IMapperBase<Ingredient>
+    public class IngredientRepository : IIngredientRepository, IMapperBase<Ingredient>
     {
         private readonly IDbHelper dbHelper;
 
@@ -159,6 +159,28 @@ namespace RecipeBook.Dal.Repositories.Implementations
             reader.Close();
 
             return ingredients;
+        }
+
+        public async Task<IEnumerable<Ingredient>> GetAllByRecipeIdAsync(int recipeId)
+        {
+            using (SqlConnection sqlConnection = new SqlConnection())
+            {
+                var sql = @"SELECT * FROM Ingredient 
+                            WHERE Ingredient.Id in 
+                            (SELECT IngredientId FROM RecipeIngredient WHERE RecipeId = @recipeId)";
+
+                var sqlParameters = new SqlParameter[]
+                {
+                    new SqlParameter("recipeId", SqlDbType.Int)
+                    {
+                        Value = recipeId,
+                    },
+                };
+
+                var reader = await dbHelper.ExecuteReaderAsync(sqlConnection, sql, sqlParameters);
+
+                return await MapToListAsync(reader);
+            }
         }
     }
 }

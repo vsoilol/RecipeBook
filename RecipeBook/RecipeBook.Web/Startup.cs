@@ -23,6 +23,8 @@ namespace RecipeBook.Web
             services.Build();
             services.AddSingleton<DbConfig>(new DbConfig(Configuration.GetConnectionString("DefaultConnection")));
 
+            services.AddAutoMapper(typeof(Startup));
+
             services.AddControllersWithViews();
         }
 
@@ -38,6 +40,7 @@ namespace RecipeBook.Web
                 app.UseExceptionHandler("/Home/Error");
             }
             app.UseStaticFiles();
+            app.UseCookiePolicy();
 
             app.UseRouting();
 
@@ -47,7 +50,7 @@ namespace RecipeBook.Web
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Recipe}/{action=GetAllRecipes}/{id?}");
             });
         }
     }

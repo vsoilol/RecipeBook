@@ -1,0 +1,38 @@
+﻿@model SearchElements
+
+<br />
+<h2 class="text-primary text-center">Поиск рецепта</h2>
+<br />
+
+<form method="post" style="margin: 0 20%">
+
+    <div class="mb-3">
+        <label for="recipeName" class="form-label">Введите название рецепта</label>
+        <input type="text" class="form-control" id="recipeName" name="recipeName">
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label" for="CategoryId">Выберите категорию</label>
+        <select class="form-select form-select-sm" name="CategoryId" id="CategoryId">
+            @foreach (var category in Model.Categories)
+            {
+                <option value="@category.Id">@category.Name</option>
+            }
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label" for="IngredientsId">Выберите ингридиенты</label>
+        <select name="IngredientsId" id="IngredientsId" class="form-control" multiple="multiple">
+            @foreach (var ingredient in Model.Ingredients)
+            {
+                <option value="@ingredient.Id">@ingredient.Name</option>
+            }
+        </select>
+    </div>
+
+    <div class="text-center">
+        <button type="submit" class="btn btn-primary">Поиск</button>
+    </div>
+    
+</form>

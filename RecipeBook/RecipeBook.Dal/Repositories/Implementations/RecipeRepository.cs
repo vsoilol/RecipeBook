@@ -140,25 +140,24 @@ namespace RecipeBook.Dal.Repositories.Implementations
             }
         }
 
-        public async Task<Recipe> GetByRecipeNameAsync(string recipeName)
+        public async Task<IEnumerable<Recipe>> GetAllByRecipePartNameAsync(string recipePartName)
         {
             using (SqlConnection sqlConnection = new SqlConnection())
             {
                 var sql = @"SELECT * FROM Recipe
-                            WHERE Name = @name";
+                            WHERE Name LIKE @name";
 
                 var sqlParameters = new SqlParameter[]
                 {
                     new SqlParameter("name", SqlDbType.NVarChar)
                     {
-                        Value = recipeName,
+                        Value = "%" + recipePartName + "%",
                     },
                 };
 
                 var reader = await dbHelper.ExecuteReaderAsync(sqlConnection, sql, sqlParameters);
-                await reader.ReadAsync();
 
-                return Map(reader);
+                return await MapToListAsync(reader);
             }
         }
 
@@ -242,6 +241,31 @@ namespace RecipeBook.Dal.Repositories.Implementations
             }
         }
 
+        public async Task<IEnumerable<Recipe>> GetAllByCategoryAndNameAsync(int categoryId, string recipePartName)
+        {
+            using (SqlConnection sqlConnection = new SqlConnection())
+            {
+                var sql = @"SELECT * FROM Recipe
+                            WHERE CategoryId = @categoryId AND Name LIKE @name";
+
+                var sqlParameters = new SqlParameter[]
+                {
+                    new SqlParameter("name", SqlDbType.NVarChar)
+                    {
+                        Value = "%" + recipePartName + "%",
+                    },
+                    new SqlParameter("categoryId", SqlDbType.Int)
+                    {
+                        Value = categoryId,
+                    },
+                };
+
+                var reader = await dbHelper.ExecuteReaderAsync(sqlConnection, sql, sqlParameters);
+
+                return await MapToListAsync(reader);
+            }
+        }
+
         public Recipe Map(SqlDataReader reader)
         {
             Recipe recipe = null;
@@ -275,5 +299,7 @@ namespace RecipeBook.Dal.Repositories.Implementations
 
             return recipes;
         }
+
+        
     }
 }

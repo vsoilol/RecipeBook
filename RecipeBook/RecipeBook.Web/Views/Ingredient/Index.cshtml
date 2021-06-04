@@ -1,0 +1,56 @@
+﻿@model IEnumerable<Ingredient>
+
+
+<div class="border backgroundWhite">
+
+    <div class="row align-items-center">
+        <div class="col-6">
+            <h2 class="text-primary">Список ингредиентов</h2>
+        </div>
+
+        <div class="col-6">
+            <div style="margin-left: 60%">
+                <a class="btn btn-primary" asp-action="Create"> <i class="fas fa-plus"></i> &nbsp; Create New</a>
+            </div>
+
+        </div>
+    </div>
+    <br />
+
+    <div asp-validation-summary="ModelOnly"></div>
+
+    <div>
+        <table class="table table-striped border">
+
+            <thead class="table-secondary">
+
+                <tr>
+                    <th>Название</th>
+                    <th>Вес, г</th>
+                    <th>Действие</th>
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.Name</td>
+                        <td>@item.Weight.ToString("0.00")</td>
+
+                        <td style="width: 150px">
+                            <div class="btn btn-group" role="group">
+
+                                <a class="btn btn-primary"><i class="fas fa-edit"></i></a>
+                                <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id"><i class="fas fa-trash-alt"></i></a>
+
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
