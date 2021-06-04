@@ -11,5 +11,7 @@ namespace RecipeBook.Common.Models
         public string Name { get; set; }
 
         public double Weight { get; set; }
+
+        public IEnumerable<int> RecipesId { get; set; }
     }
 }

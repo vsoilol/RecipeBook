@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace RecipeBook.Bll.Services.Implementations
 {
-    public class IngredientService : IService<Ingredient>
+    public class IngredientService : IIngredientService
     {
-        private readonly IRepository<Ingredient> ingredientRepository;
+        private readonly IIngredientRepository ingredientRepository;
 
-        public IngredientService(IRepository<Ingredient> ingredientRepository)
+        public IngredientService(IIngredientRepository ingredientRepository)
         {
             this.ingredientRepository = ingredientRepository;
         }
@@ -28,6 +28,11 @@ namespace RecipeBook.Bll.Services.Implementations
         public async Task<IEnumerable<Ingredient>> GetAllAsync()
         {
             return await ingredientRepository.GetAllAsync();
+        }
+
+        public async Task<IEnumerable<Ingredient>> GetAllByRecipeIdAsync(int recipeId)
+        {
+            return await ingredientRepository.GetAllByRecipeIdAsync(recipeId);
         }
 
         public async Task<Ingredient> GetByIdAsync(int id)

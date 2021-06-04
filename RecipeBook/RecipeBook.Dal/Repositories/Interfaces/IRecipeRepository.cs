@@ -8,10 +8,8 @@ namespace RecipeBook.Dal.Repositories.Interfaces
 {
     public interface IRecipeRepository : IRepository<Recipe>
     {
-        Task<Recipe> GetByRecipeNameAsync(string recipeName);
-
-        Task<IEnumerable<Recipe>> GetAllByIngredientIdAsync(int ingredientId);
-
         Task<IEnumerable<Recipe>> GetAllByCategoryIdAsync(int categoryId);
+
+        Task<IEnumerable<Recipe>> GetAllByCategoryAndNameAsync(int categoryId, string recipePartName);
     }
 }
