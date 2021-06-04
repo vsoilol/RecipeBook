@@ -37,16 +37,6 @@ namespace RecipeBook.Bll.Services.Implementations
             return recipes;
         }
 
-        public async Task<IEnumerable<Recipe>> GetAllByCategoryIdAsync(int categoryId)
-        {
-            return await recipeRepository.GetAllByCategoryIdAsync(categoryId);
-        }
-
-        public async Task<IEnumerable<Recipe>> GetAllByIngredientIdAsync(int ingredientId)
-        {
-            return await recipeRepository.GetAllByIngredientIdAsync(ingredientId);
-        }
-
         public async Task<Recipe> GetByIdAsync(int id)
         {
             Recipe recipe = await recipeRepository.GetByIdAsync(id);
@@ -55,24 +45,21 @@ namespace RecipeBook.Bll.Services.Implementations
             return recipe;
         }
 
-        public async Task<IEnumerable<Recipe>> GetAllByRecipePartNameAsync(string recipePartName)
-        {
-            return await recipeRepository.GetAllByRecipePartNameAsync(recipePartName);
-        }
-
         public async Task<Recipe> UpdateAsync(int id, Recipe item)
         {
             await recipeIngredientRepository.DeleteByRecipeIdAsync(id);
 
+            List<RecipeIngredient> recipeIngredients = new List<RecipeIngredient>();
+            
             foreach (var ingredient in item.IngredientsId)
             {
-                RecipeIngredient recipeIngredient = new RecipeIngredient
+                recipeIngredients.Add(new RecipeIngredient
                 {
                     IngredientId = ingredient,
                     RecipeId = id,
-                };
-                await recipeIngredientRepository.CreateAsync(recipeIngredient);
+                });
             }
+            await recipeIngredientRepository.CreateAsync(recipeIngredients);
 
             return await recipeRepository.UpdateAsync(id, item);
         }
@@ -81,16 +68,18 @@ namespace RecipeBook.Bll.Services.Implementations
         {
             Recipe model = await recipeRepository.CreateAsync(item);
 
-            RecipeIngredient recipeIngredient;
+            List<RecipeIngredient> recipeIngredients = new List<RecipeIngredient>();
+
             foreach (var ingredient in item.IngredientsId)
             {
-                recipeIngredient = new RecipeIngredient
+                recipeIngredients.Add(new RecipeIngredient
                 {
                     RecipeId = model.Id,
                     IngredientId = ingredient,
-                };
-                await recipeIngredientRepository.CreateAsync(recipeIngredient);
+                });
             }
+            await recipeIngredientRepository.CreateAsync(recipeIngredients);
+            model.IngredientsId = item.IngredientsId;
 
             return model;
         }
@@ -113,6 +102,11 @@ namespace RecipeBook.Bll.Services.Implementations
             }
 
             return recipes;
+        }
+
+        public async Task<IEnumerable<Recipe>> GetAllByCategoryIdAsync(int categoryId)
+        {
+            return await recipeRepository.GetAllByCategoryIdAsync(categoryId);
         }
     }
 }

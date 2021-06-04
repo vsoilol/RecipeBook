@@ -21,30 +21,38 @@ namespace RecipeBook.Dal.Repositories.Implementations
             this.dbHelper = dbHelper;
         }
 
-        public async Task<RecipeIngredient> CreateAsync(RecipeIngredient item)
+        public async Task<IEnumerable<RecipeIngredient>> CreateAsync(IEnumerable<RecipeIngredient> items)
         {
             using (SqlConnection sqlConnection = new SqlConnection())
             {
                 var sql = @"INSERT INTO RecipeIngredient (IngredientId, RecipeId)
-                            VALUES (@ingredientId, @recipeId)
-                            SELECT TOP 1 * FROM RecipeIngredient ORDER BY RecipeId DESC";
+                            VALUES";
 
-                var sqlParameters = new SqlParameter[]
+                StringBuilder sqlStringBuilder = new StringBuilder(sql);
+                var sqlParameters = new SqlParameter[items.Count()*2];
+
+                int i = 0;
+                foreach (var item in items)
                 {
-                    new SqlParameter("ingredientId", SqlDbType.Int)
+                    sqlStringBuilder.AppendFormat("(@ingredientId{0}, @recipeId{0}),", i);
+
+                    sqlParameters[i] = new SqlParameter($"ingredientId{i}", SqlDbType.Int)
                     {
                         Value = item.IngredientId,
-                    },
-                    new SqlParameter("recipeId", SqlDbType.Int)
+                    };
+
+                    sqlParameters[i+1] = new SqlParameter($"recipeId{i}", SqlDbType.Int)
                     {
                         Value = item.RecipeId,
-                    },
-                };
+                    };
+                    i += 2;
+                }
 
-                var reader = await dbHelper.ExecuteReaderAsync(sqlConnection, sql, sqlParameters);
-                await reader.ReadAsync();
+                sqlStringBuilder.Replace(',', ' ', sqlStringBuilder.Length - 1, 1);
 
-                return Map(reader);
+                await dbHelper.ExecuteNonQueryAsync(sqlConnection, sqlStringBuilder.ToString(), sqlParameters);
+
+                return items;
             }
         }
 
@@ -82,10 +90,12 @@ namespace RecipeBook.Dal.Repositories.Implementations
                 {
                     sqlStringBuilder.Append($"@ingredientId{i},");
 
-                    sqlParameters[0] = new SqlParameter($"ingredientId{i}", SqlDbType.Int)
+                    sqlParameters[i] = new SqlParameter($"ingredientId{i}", SqlDbType.Int)
                     {
                         Value = id,
                     };
+
+                    i++;
                 }
 
                 sqlStringBuilder.Replace(',', ')', sqlStringBuilder.Length - 1, 1);

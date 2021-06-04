@@ -165,9 +165,11 @@ namespace RecipeBook.Dal.Repositories.Implementations
         {
             using (SqlConnection sqlConnection = new SqlConnection())
             {
-                var sql = @"SELECT * FROM Ingredient 
-                            WHERE Ingredient.Id in 
-                            (SELECT IngredientId FROM RecipeIngredient WHERE RecipeId = @recipeId)";
+                var sql = @"SELECT Ingredient.Id, Ingredient.Name, Ingredient.Weight
+                              FROM Ingredient
+                              JOIN RecipeIngredient
+                              ON Ingredient.Id = RecipeIngredient.IngredientId
+                              AND RecipeIngredient.RecipeId = @recipeId";
 
                 var sqlParameters = new SqlParameter[]
                 {

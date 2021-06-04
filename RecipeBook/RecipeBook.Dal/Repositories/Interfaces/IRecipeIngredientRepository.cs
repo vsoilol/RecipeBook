@@ -10,7 +10,7 @@ namespace RecipeBook.Dal.Repositories.Interfaces
     {
         Task<bool> DeleteByRecipeIdAsync(int recipeId);
 
-        Task<RecipeIngredient> CreateAsync(RecipeIngredient item);
+        Task<IEnumerable<RecipeIngredient>> CreateAsync(IEnumerable<RecipeIngredient> items);
 
         Task<IEnumerable<RecipeIngredient>> GetAllByIngredientsIdAsync(IEnumerable<int> ingredientsId);
     }

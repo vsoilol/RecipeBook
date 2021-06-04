@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace RecipeBook.Dal.Repositories.Implementations
@@ -109,49 +110,6 @@ namespace RecipeBook.Dal.Repositories.Implementations
                     new SqlParameter("categoryId", SqlDbType.Int)
                     {
                         Value = categoryId,
-                    },
-                };
-
-                var reader = await dbHelper.ExecuteReaderAsync(sqlConnection, sql, sqlParameters);
-
-                return await MapToListAsync(reader);
-            }
-        }
-
-        public async Task<IEnumerable<Recipe>> GetAllByIngredientIdAsync(int ingredientId)
-        {
-            using (SqlConnection sqlConnection = new SqlConnection())
-            {
-                var sql = @"SELECT * FROM Recipe 
-                            WHERE Recipe.Id in 
-                            (SELECT RecipeId FROM RecipeIngredient WHERE IngredientId = @ingredientId)";
-
-                var sqlParameters = new SqlParameter[]
-                {
-                    new SqlParameter("ingredientId", SqlDbType.Int)
-                    {
-                        Value = ingredientId,
-                    },
-                };
-
-                var reader = await dbHelper.ExecuteReaderAsync(sqlConnection, sql, sqlParameters);
-
-                return await MapToListAsync(reader);
-            }
-        }
-
-        public async Task<IEnumerable<Recipe>> GetAllByRecipePartNameAsync(string recipePartName)
-        {
-            using (SqlConnection sqlConnection = new SqlConnection())
-            {
-                var sql = @"SELECT * FROM Recipe
-                            WHERE Name LIKE @name";
-
-                var sqlParameters = new SqlParameter[]
-                {
-                    new SqlParameter("name", SqlDbType.NVarChar)
-                    {
-                        Value = "%" + recipePartName + "%",
                     },
                 };
 
