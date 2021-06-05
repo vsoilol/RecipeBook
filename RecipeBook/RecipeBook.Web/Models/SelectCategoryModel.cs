@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace RecipeBook.Web.Models
 {
-    public class SearchElements
+    public class SelectCategoryModel
     {
         public IEnumerable<Category> Categories { get; set; }
 
-        public IEnumerable<Ingredient> Ingredients { get; set; }
+        public Category SelectCategory { get; set; }
     }
 }

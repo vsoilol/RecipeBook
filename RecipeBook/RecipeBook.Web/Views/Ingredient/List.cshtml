@@ -1,11 +1,12 @@
 ﻿@model IEnumerable<Ingredient>
 
 
+
 <div class="border backgroundWhite">
 
     <div class="row align-items-center">
         <div class="col-6">
-            <h2 class="text-primary">Список ингредиентов</h2>
+            <h2 class="text-primary">Ingredients List</h2>
         </div>
 
         <div class="col-6">
@@ -17,7 +18,7 @@
     </div>
     <br />
 
-    <div asp-validation-summary="ModelOnly"></div>
+    <div asp-validation-summary="ModelOnly" class="mainError"></div>
 
     <div>
         <table class="table table-striped border">
@@ -25,9 +26,9 @@
             <thead class="table-secondary">
 
                 <tr>
-                    <th>Название</th>
-                    <th>Вес, г</th>
-                    <th>Действие</th>
+                    <th>Name</th>
+                    <th>Weight, gr</th>
+                    <th>Action</th>
                 </tr>
 
             </thead>

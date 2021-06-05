@@ -25,21 +25,28 @@ namespace RecipeBook.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            SearchElements searchElements = new SearchElements
-            {
-                Categories = await categoryService.GetAllAsync(),
-                Ingredients = await ingredientService.GetAllAsync()
-            };
+            //SearchModel searchElements = new SearchModel
+            //{
+            //    Categories = await categoryService.GetAllAsync(),
+            //    Ingredients = await ingredientService.GetAllAsync()
+            //};
 
-            return View(searchElements);
+            return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> Index(string recipeName, int categoryId, IEnumerable<int> ingredientsId)
+        public async Task<IActionResult> Index(SearchInfo searchInfo)
         {
-            var recipes = await recipeService.GetAllSearchAsync(categoryId, ingredientsId, recipeName);
+            if (ModelState.IsValid)
+            {
+                var recipes = await recipeService.GetAllSearchAsync(searchInfo.CategoryId, searchInfo.IngredientsId, searchInfo.RecipeName);
 
-            return View("~/Views/Recipe/List.cshtml", recipes);
+                return View("~/Views/Recipe/List.cshtml", recipes);
+            }
+            else
+            {
+                return View(searchInfo);
+            }
         }
 
     }

@@ -43,7 +43,7 @@ namespace RecipeBook.Web.Controllers
             recipeViewModel.Category = await categoryService.GetByIdAsync(recipe.CategoryId);
             recipeViewModel.Ingredients = await ingredientService.GetAllByRecipeIdAsync(id);
 
-            SearchElements searchElements = new SearchElements
+            SearchModel searchElements = new SearchModel
             {
                 Categories = await categoryService.GetAllAsync(),
                 Ingredients = await ingredientService.GetAllAsync()
@@ -94,7 +94,7 @@ namespace RecipeBook.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> CreateAsync()
         {
-            SearchElements searchElements = new SearchElements
+            SearchModel searchElements = new SearchModel
             {
                 Categories = await categoryService.GetAllAsync(),
                 Ingredients = await ingredientService.GetAllAsync()

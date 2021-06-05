@@ -1,0 +1,27 @@
+﻿@model SelectIngredientModel
+
+
+
+<select name="IngredientsId" id="IngredientsId" class="form-control" multiple="multiple">
+    @foreach (var ingredient in Model.AllIngredients)
+    {
+        @if (Model.SelectIngredients?.Contains(ingredient, new IngredientEqualityComparer()) ?? false)
+        {
+            <option value="@ingredient.Id" selected>@ingredient.Name</option>
+        }
+        else
+        {
+            <option value="@ingredient.Id">@ingredient.Name</option>
+        }
+
+    }
+</select>
+
+
+@*<script>
+
+        $.validator.addClassRules("IngredientsId", {
+            required: true
+        });
+
+    </script>*@

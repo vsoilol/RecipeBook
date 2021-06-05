@@ -26,6 +26,6 @@ namespace RecipeBook.Web.Models
 
         public IEnumerable<Ingredient> Ingredients { get; set; }
 
-        public SearchElements SearchElements { get; set; }
+        public SearchModel SearchElements { get; set; }
     }
 }
