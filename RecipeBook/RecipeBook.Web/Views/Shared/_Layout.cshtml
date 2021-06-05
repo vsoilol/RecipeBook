@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - RecipeBook.Web</title>
+    <title>RecipeBook</title>
 
 
 
@@ -36,7 +36,7 @@
             <div class="container">
 
                 <a class="navbar-brand" asp-controller="Recipe" asp-action="GetAllRecipes">
-                    Рецепты
+                    Recipes
                 </a>
 
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
@@ -46,18 +46,18 @@
                     <ul class="navbar-nav flex-grow-1">
 
                         <li class="nav-item">
-                            <a asp-controller="Search" asp-action="Index" class="nav-link">Поиск</a>
+                            <a asp-controller="Search" asp-action="Index" class="nav-link">Search</a>
                         </li>
 
                         @if (User.IsInRole(Role.Editor.ToString()) || User.IsInRole(Role.Admin.ToString()))
                         {
                             <li class="nav-item dropdown text-white-50">
-                                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Редактор</a>
+                                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Editor</a>
 
                                 <div class="dropdown-menu">
-                                    <a class="dropdown-item" asp-controller="Editor" asp-action="GetAllRecipes">Рецепты</a>
-                                    <a class="dropdown-item" asp-controller="Category" asp-action="GetAll">Категории</a>
-                                    <a class="dropdown-item" asp-controller="Ingredient" asp-action="GetAll">Ингредиенты</a>
+                                    <a class="dropdown-item" asp-controller="Editor" asp-action="GetAllRecipes">Recipes</a>
+                                    <a class="dropdown-item" asp-controller="Category" asp-action="GetAll">Categories</a>
+                                    <a class="dropdown-item" asp-controller="Ingredient" asp-action="GetAll">Ingredients</a>
 
                                 </div>
                             </li>
@@ -66,7 +66,7 @@
                         @if (User.IsInRole(Role.Admin.ToString()))
                         {
                             <li class="nav-item">
-                                <a asp-controller="Admin" asp-action="GetAll" class="nav-link">Пользователи</a>
+                                <a asp-controller="Admin" asp-action="GetAll" class="nav-link">Users</a>
                             </li>
                         }
                     </ul>

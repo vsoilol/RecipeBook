@@ -9,6 +9,7 @@ namespace RecipeBook.Web.Models
     public class SearchInfo
     {
         [Required(ErrorMessage = "Name not specified")]
+        [RegularExpression(@"^[A-Za-zА-Яа-я]+", ErrorMessage = "The name must consist of letters")]
         public string RecipeName { get; set; }
 
         [Required(ErrorMessage = "Category not specified")]

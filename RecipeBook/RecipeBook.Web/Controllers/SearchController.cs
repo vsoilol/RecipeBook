@@ -12,25 +12,15 @@ namespace RecipeBook.Web.Controllers
     public class SearchController : Controller
     {
         private readonly IRecipeService recipeService;
-        private readonly IService<Category> categoryService;
-        private readonly IIngredientService ingredientService;
 
-        public SearchController(IRecipeService recipeService, IService<Category> categoryService, IIngredientService ingredientService)
+        public SearchController(IRecipeService recipeService)
         {
             this.recipeService = recipeService;
-            this.categoryService = categoryService;
-            this.ingredientService = ingredientService;
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            //SearchModel searchElements = new SearchModel
-            //{
-            //    Categories = await categoryService.GetAllAsync(),
-            //    Ingredients = await ingredientService.GetAllAsync()
-            //};
-
             return View();
         }
 
