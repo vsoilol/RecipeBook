@@ -9,9 +9,9 @@ namespace RecipeBook.Web.Controllers
     [Authorize(Roles = "Admin, Editor")]
     public class CategoryController : Controller
     {
-        private readonly IService<Category> categoryService;
+        private readonly ICategoryService categoryService;
 
-        public CategoryController(IService<Category> categoryService)
+        public CategoryController(ICategoryService categoryService)
         {
             this.categoryService = categoryService;
         }

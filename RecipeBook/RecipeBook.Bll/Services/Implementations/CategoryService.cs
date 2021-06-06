@@ -7,11 +7,11 @@ using System.Data.SqlClient;
 
 namespace RecipeBook.Bll.Services.Implementations
 {
-    public class CategoryService : IService<Category>
+    public class CategoryService : ICategoryService
     {
-        private readonly IRepository<Category> categoryRepository;
+        private readonly ICategoryRepository categoryRepository;
 
-        public CategoryService(IRepository<Category> categoryRepository)
+        public CategoryService(ICategoryRepository categoryRepository)
         {
             this.categoryRepository = categoryRepository;
         }
@@ -45,11 +45,6 @@ namespace RecipeBook.Bll.Services.Implementations
         public async Task<Category> GetByIdAsync(int id)
         {
             return await categoryRepository.GetByIdAsync(id);
-        }
-
-        public async Task<Category> UpdateAsync(int id, Category item)
-        {
-            return await categoryRepository.UpdateAsync(id, item);
         }
     }
 }

@@ -18,10 +18,10 @@ namespace RecipeBook.Web.Controllers
     {
         private readonly IRecipeService recipeService;
         private readonly IIngredientService ingredientService;
-        private readonly IService<Category> categoryService;
+        private readonly ICategoryService categoryService;
         private readonly IMapper mapper;
 
-        public RecipeController(IRecipeService recipeService, IIngredientService ingredientService, IService<Category> categoryService, IMapper mapper)
+        public RecipeController(IRecipeService recipeService, IIngredientService ingredientService, ICategoryService categoryService, IMapper mapper)
         {
             this.recipeService = recipeService;
             this.mapper = mapper;

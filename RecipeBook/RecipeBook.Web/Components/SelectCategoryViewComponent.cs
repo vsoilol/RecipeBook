@@ -11,9 +11,9 @@ namespace RecipeBook.Web.Components
 {
     public class SelectCategoryViewComponent: ViewComponent
     {
-        private readonly IService<Category> categoryService;
+        private readonly ICategoryService categoryService;
 
-        public SelectCategoryViewComponent(IService<Category> categoryService)
+        public SelectCategoryViewComponent(ICategoryService categoryService)
         {
             this.categoryService = categoryService;
         }

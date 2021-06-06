@@ -17,12 +17,12 @@ namespace RecipeBook.Web.Controllers
         private readonly IPdfConverter pdfConverter;
         private readonly IRecipeService recipeService;
         private readonly IIngredientService ingredientService;
-        private readonly IService<Category> categoryService;
+        private readonly ICategoryService categoryService;
         private readonly string StyleFilePath;
         private readonly IMapper mapper;
 
         public DownloadController(IPdfConverter pdfConverter, IRecipeService recipeService, 
-            IIngredientService ingredientService, IService<Category> categoryService, IMapper mapper)
+            IIngredientService ingredientService, ICategoryService categoryService, IMapper mapper)
         {
             this.pdfConverter = pdfConverter;
             this.recipeService = recipeService;

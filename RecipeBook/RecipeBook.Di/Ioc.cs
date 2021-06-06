@@ -22,13 +22,13 @@ namespace RecipeBook.Di
             //Repositories
             services.AddSingleton<IRecipeRepository, RecipeRepository>();
             services.AddSingleton<IIngredientRepository, IngredientRepository>();
-            services.AddSingleton<IRepository<Category>, CategoryRepository>();
+            services.AddSingleton<ICategoryRepository, CategoryRepository>();
             services.AddSingleton<IUserRepository, UserRepository>();
             services.AddSingleton<IRecipeIngredientRepository, RecipeIngredientRepository>();
 
             //Services
             services.AddSingleton<IRecipeService, RecipeService>();
-            services.AddSingleton<IService<Category>, CategoryService>();
+            services.AddSingleton<ICategoryService, CategoryService>();
             services.AddSingleton<IIngredientService, IngredientService>();
             services.AddSingleton<IUserService, UserService>();
 

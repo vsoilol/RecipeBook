@@ -11,9 +11,9 @@ namespace RecipeBook.Web.Components
 {
     public class NavigationMenuViewComponent : ViewComponent
     {
-        private readonly IService<Category> categoryService;
+        private readonly ICategoryService categoryService;
 
-        public NavigationMenuViewComponent(IService<Category> categoryService)
+        public NavigationMenuViewComponent(ICategoryService categoryService)
         {
             this.categoryService = categoryService;
         }

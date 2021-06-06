@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace RecipeBook.Dal.Repositories.Implementations
 {
-    public class CategoryRepository : IRepository<Category>, IMapperBase<Category>
+    public class CategoryRepository : ICategoryRepository, IMapperBase<Category>
     {
         private readonly IDbHelper dbHelper;
 
@@ -84,34 +84,6 @@ namespace RecipeBook.Dal.Repositories.Implementations
                     new SqlParameter("id", SqlDbType.Int)
                     {
                         Value = id,
-                    },
-                };
-
-                var reader = await dbHelper.ExecuteReaderAsync(sqlConnection, sql, sqlParameters);
-                await reader.ReadAsync();
-
-                return Map(reader);
-            }
-        }
-
-        public async Task<Category> UpdateAsync(int id, Category item)
-        {
-            using (SqlConnection sqlConnection = new SqlConnection())
-            {
-                var sql = @"UPDATE Category
-                            SET Name = @name
-                            WHERE Id = @id
-                            SELECT TOP 1 * FROM Category WHERE Id = @id";
-
-                var sqlParameters = new SqlParameter[]
-                {
-                    new SqlParameter("id", SqlDbType.Int)
-                    {
-                        Value = id,
-                    },
-                    new SqlParameter("name", SqlDbType.NVarChar)
-                    {
-                        Value = item.Name,
                     },
                 };
 
