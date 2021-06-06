@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using RecipeBook.Bll.Services.Interfaces;
 using RecipeBook.Common.Models;
 using System;
@@ -8,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace RecipeBook.Web.Controllers
 {
+    [Authorize(Roles = "Admin, Editor")]
     public class CategoryController : Controller
     {
         private readonly IService<Category> categoryService;

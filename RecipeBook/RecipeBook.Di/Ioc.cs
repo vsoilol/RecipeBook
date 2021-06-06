@@ -23,12 +23,14 @@ namespace RecipeBook.Di
             services.AddSingleton<IRecipeRepository, RecipeRepository>();
             services.AddSingleton<IIngredientRepository, IngredientRepository>();
             services.AddSingleton<IRepository<Category>, CategoryRepository>();
+            services.AddSingleton<IUserRepository, UserRepository>();
             services.AddSingleton<IRecipeIngredientRepository, RecipeIngredientRepository>();
 
             //Services
             services.AddSingleton<IRecipeService, RecipeService>();
             services.AddSingleton<IService<Category>, CategoryService>();
             services.AddSingleton<IIngredientService, IngredientService>();
+            services.AddSingleton<IUserService, UserService>();
 
             //Converter
             services.AddSingleton<IConverter>(new SynchronizedConverter(new PdfTools()));

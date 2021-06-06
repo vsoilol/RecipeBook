@@ -1,0 +1,72 @@
+﻿@model LoginModel
+
+<h1>Log in</h1>
+
+<div class="row">
+
+    <div class="col-md-4">
+        <section>
+
+            <form method="post" class="box">
+
+                <hr />
+                <div class="validation" asp-validation-summary="ModelOnly"></div>
+
+                <div class="form-group">
+                    <label asp-for="Email"></label>
+                    <input asp-for="Email" class="form-control" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Password"></label>
+                    <input asp-for="Password" type="password" class="form-control" />
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mt-3">
+                    <button type="submit" class="btn btn-primary">Log in</button>
+                </div>
+            </form>
+
+        </section>
+    </div>
+
+</div>
+
+<script>
+    jQuery.validator.addMethod(
+        "regex",
+        function (value, element, regexp) {
+            if (regexp.constructor != RegExp)
+                regexp = new RegExp(regexp);
+            else if (regexp.global)
+                regexp.lastIndex = 0;
+            return this.optional(element) || regexp.test(value);
+        }, "erreur expression reguliere"
+    );
+
+
+    $(".box").validate({
+        rules: {
+            Email: {
+                required: true,
+                regex: "^[^@(Html.Raw("@"))\\s]+@(Html.Raw("@"))([^@(Html.Raw("@"))\\s]+\\.)+[^@(Html.Raw("@"))\\s]+$",
+            },
+            Password: {
+                required: true,
+                minlength: 4
+            },
+        },
+        messages: {
+            Email: {
+                required: "The field must be filled",
+                regex: "Your email address must be in the format of name@domain.com",
+            },
+            Password: {
+                required: "The field must be filled",
+                minlength: "The length must be more than 4 characters"
+            },
+        },
+    });
+</script>
