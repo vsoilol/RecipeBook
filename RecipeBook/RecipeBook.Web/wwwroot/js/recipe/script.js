@@ -14,33 +14,8 @@ $("#ImageDataFile").change(function () {
     readURL(this);
 });
 
-//$(document).ready(function () {
-//    $("#ImageData").change(function () {
-//        readURL(this);
-//    });
-//});
-
-jQuery.validator.addMethod("lettersonly", function (value, element) {
-    return this.optional(element) || /^[a-zа-я]+$/i.test(value);
-}, "Letters only please");
-
-$(".box").validate({
-    rules: {
-        Name: {
-            required: true,
-            lettersonly: true,
-        },
-        //ImageData: {
-        //    required: true,
-        //},
-    },
-    messages: {
-        Name: {
-            required: "The field must be filled",
-            lettersonly: "The name must consist of letters",
-        },
-        //ImageData: {
-        //    required: "The field must be filled",
-        //},
-    },
+$(document).ready(function () {
+    $("#ImageDataFile").change(function () {
+        readURL(this);
+    });
 });

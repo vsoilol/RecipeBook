@@ -5,10 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using RecipeBook.Bll.Services.Interfaces;
 using RecipeBook.Common.Models;
 using RecipeBook.Web.Models;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace RecipeBook.Web.Controllers
@@ -67,7 +64,7 @@ namespace RecipeBook.Web.Controllers
             RecipeViewModel recipeViewModel = mapper.Map<RecipeViewModel>(recipe);
 
             ViewBag.ActionTitle = "Edit";
-            
+
 
             return View("Edit", recipeViewModel);
         }
@@ -89,7 +86,7 @@ namespace RecipeBook.Web.Controllers
                 ViewBag.ActionTitle = "Edit";
                 return View("Edit", recipeViewModel);
             }
-            
+
         }
 
         public async Task<IActionResult> DeleteAsync(int id)
@@ -98,7 +95,7 @@ namespace RecipeBook.Web.Controllers
             {
                 ModelState.AddModelError("", "The recipe cannot be deleted");
             }
-            
+
             return await GetAllRecipesEditAsync();
         }
 
@@ -132,7 +129,7 @@ namespace RecipeBook.Web.Controllers
             using (var memoryStream = new MemoryStream())
             {
                 await imageData.CopyToAsync(memoryStream);
-                return memoryStream.ToArray(); 
+                return memoryStream.ToArray();
             }
         }
     }

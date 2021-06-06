@@ -3,11 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using RecipeBook.Bll.Converter;
 using RecipeBook.Bll.Services.Interfaces;
 using RecipeBook.Common.Models;
-using RecipeBook.Web.Models;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace RecipeBook.Web.Controllers
@@ -21,7 +17,7 @@ namespace RecipeBook.Web.Controllers
         private readonly string StyleFilePath;
         private readonly IMapper mapper;
 
-        public DownloadController(IPdfConverter pdfConverter, IRecipeService recipeService, 
+        public DownloadController(IPdfConverter pdfConverter, IRecipeService recipeService,
             IIngredientService ingredientService, ICategoryService categoryService, IMapper mapper)
         {
             this.pdfConverter = pdfConverter;
@@ -31,7 +27,7 @@ namespace RecipeBook.Web.Controllers
             this.mapper = mapper;
             StyleFilePath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\css\downloadStyle.css");
         }
-        
+
         public async Task<IActionResult> GetFile(int id)
         {
             Recipe recipe = await recipeService.GetByIdAsync(id);

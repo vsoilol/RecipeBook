@@ -1,14 +1,8 @@
-﻿using AutoMapper;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RecipeBook.Bll.Services.Interfaces;
 using RecipeBook.Common.Enums;
 using RecipeBook.Common.Models;
-using RecipeBook.Web.Mapper;
-using RecipeBook.Web.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace RecipeBook.Web.Controllers
@@ -48,7 +42,7 @@ namespace RecipeBook.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateAsync(User user)
         {
-            if(await userService.IsUserExist(user.Email))
+            if (await userService.IsUserExist(user.Email))
             {
                 ViewBag.AdminTitle = "Add";
                 ModelState.AddModelError("", "User with this email already exists");
