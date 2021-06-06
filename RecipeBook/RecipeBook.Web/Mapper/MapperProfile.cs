@@ -13,6 +13,9 @@ namespace RecipeBook.Web.Mapper
         public MapperProfile()
         {
             //mappings
+            CreateMap<Recipe, RecipeInfo>();
+            CreateMap<RecipeInfo, Recipe>();
+
             CreateMap<Recipe, RecipeViewModel>();
             CreateMap<RecipeViewModel, Recipe>();
         }

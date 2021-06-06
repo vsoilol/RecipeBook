@@ -1,11 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RecipeBook.Bll.Services.Interfaces;
-using RecipeBook.Common.Enums;
 using RecipeBook.Common.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace RecipeBook.Web.Controllers
@@ -20,21 +16,16 @@ namespace RecipeBook.Web.Controllers
             this.ingredientService = ingredientService;
         }
 
-        [AllowAnonymous]
         public async Task<IActionResult> GetAllAsync()
         {
-            return View("Index", await ingredientService.GetAllAsync());
+            return View("List", await ingredientService.GetAllAsync());
         }
 
         public async Task<IActionResult> DeleteAsync(int id)
         {
-            try
+            if (!(await ingredientService.DeleteAsync(id)))
             {
-                await ingredientService.DeleteAsync(id);
-            }
-            catch (Exception)
-            {
-                ModelState.AddModelError("", "Нельзя удалить, так как этот ингредиент связан с рецептом");
+                ModelState.AddModelError("", "You can't delete it because this ingredient is linked to the recipe");
             }
 
             return await GetAllAsync();
@@ -42,12 +33,14 @@ namespace RecipeBook.Web.Controllers
 
         public IActionResult Create()
         {
-            return View();
+            ViewBag.IngredientTitle = "Add";
+            return View("Edit");
         }
 
         public async Task<IActionResult> Update(int id)
         {
-            return View(await ingredientService.GetByIdAsync(id));
+            ViewBag.IngredientTitle = "Edit";
+            return View("Edit", await ingredientService.GetByIdAsync(id));
         }
 
         [HttpPost]

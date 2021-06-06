@@ -1,15 +1,19 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RecipeBook.Bll.Services.Interfaces;
 using RecipeBook.Common.Models;
 using RecipeBook.Web.Models;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace RecipeBook.Web.Controllers
 {
+    [Authorize(Roles = "Admin, Editor")]
     public class RecipeController : Controller
     {
         private readonly IRecipeService recipeService;
@@ -25,41 +29,107 @@ namespace RecipeBook.Web.Controllers
             this.categoryService = categoryService;
         }
 
-        public IActionResult Index()
-        {
-            return View();
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> GetAllRecipesAsync()
+        [AllowAnonymous]
+        public async Task<IActionResult> GetAllRecipesInfoAsync()
         {
             var recipes = await recipeService.GetAllAsync();
-            return View("List", recipes);
+            return View("InfoAll", recipes);
         }
 
-        [HttpGet]
+        [AllowAnonymous]
         public async Task<IActionResult> GetAllRecipesByCategoryIdAsync(int categoryId)
         {
             var recipes = await recipeService.GetAllByCategoryIdAsync(categoryId);
-            return View("List", recipes);
+            return View("InfoAll", recipes);
         }
 
-        [HttpGet]
-        public IActionResult ShowRecipes(IEnumerable<Recipe> recipes)
+        public async Task<IActionResult> GetAllRecipesEditAsync()
         {
-            return View("List", recipes);
+            return View("EditAll", await recipeService.GetAllAsync());
         }
 
-        [HttpGet]
+        [AllowAnonymous]
         public async Task<IActionResult> GetByIdAsync(int id)
+        {
+            var recipe = await recipeService.GetByIdAsync(id);
+            RecipeInfo recipeInfo = mapper.Map<RecipeInfo>(recipe);
+
+            recipeInfo.Category = await categoryService.GetByIdAsync(recipe.CategoryId);
+            recipeInfo.Ingredients = await ingredientService.GetAllByRecipeIdAsync(id);
+
+            return View("RecipeInfoFull", recipeInfo);
+        }
+
+        public async Task<IActionResult> UpdateAsync(int id)
         {
             var recipe = await recipeService.GetByIdAsync(id);
             RecipeViewModel recipeViewModel = mapper.Map<RecipeViewModel>(recipe);
 
-            recipeViewModel.Category = await categoryService.GetByIdAsync(recipe.CategoryId);
-            recipeViewModel.Ingredients = await ingredientService.GetAllByRecipeIdAsync(id);
+            ViewBag.ActionTitle = "Edit";
+            
 
-            return View("RecipeFull", recipeViewModel);
+            return View("Edit", recipeViewModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateAsync(RecipeViewModel recipeViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                Recipe recipe = mapper.Map<Recipe>(recipeViewModel);
+
+                recipe.ImageData = await CreateImageAsync(recipeViewModel.ImageDataFile);
+                await recipeService.UpdateAsync(recipeViewModel.Id, recipe);
+
+                return RedirectToAction("GetAllRecipesEdit");
+            }
+            else
+            {
+                ViewBag.ActionTitle = "Edit";
+                return View("Edit", recipeViewModel);
+            }
+        }
+
+        public async Task<IActionResult> DeleteAsync(int id)
+        {
+            await recipeService.DeleteAsync(id);
+            return RedirectToAction("GetAllRecipesEdit");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateAsync(RecipeViewModel recipeViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                Recipe recipe = mapper.Map<Recipe>(recipeViewModel);
+
+                recipe.ImageData = await CreateImageAsync(recipeViewModel.ImageDataFile);
+                await recipeService.CreateAsync(recipe);
+
+                return RedirectToAction("GetAllRecipesEdit");
+            }
+            else
+            {
+                ViewBag.ActionTitle = "Create";
+                return View("Edit", recipeViewModel);
+            }
+        }
+
+        public IActionResult CreateAsync()
+        {
+            ViewBag.ActionTitle = "Create";
+            return View("Edit");
+        }
+
+        private async Task<byte[]> CreateImageAsync(IFormFile imageData)
+        {
+            using (var memoryStream = new MemoryStream())
+            {
+                await imageData.CopyToAsync(memoryStream);
+                return memoryStream.ToArray();
+
+                
+            }
         }
     }
 }

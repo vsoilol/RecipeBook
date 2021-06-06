@@ -2,9 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using RecipeBook.Bll.Services.Interfaces;
 using RecipeBook.Common.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace RecipeBook.Web.Controllers
@@ -21,18 +18,14 @@ namespace RecipeBook.Web.Controllers
 
         public async Task<IActionResult> GetAllAsync()
         {
-            return View("Index", await categoryService.GetAllAsync());
+            return View("List", await categoryService.GetAllAsync());
         }
 
         public async Task<IActionResult> DeleteAsync(int id)
         {
-            try
+            if (!(await categoryService.DeleteAsync(id)))
             {
-                await categoryService.DeleteAsync(id);
-            }
-            catch (Exception)
-            {
-                ModelState.AddModelError("", "Нельзя удалить, так как эта категория связана с рецептом");
+                ModelState.AddModelError("", "You can't delete it because this category is associated with a recipe");
             }
 
             return await GetAllAsync();
