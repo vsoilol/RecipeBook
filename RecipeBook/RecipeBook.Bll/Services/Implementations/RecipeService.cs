@@ -57,7 +57,7 @@ namespace RecipeBook.Bll.Services.Implementations
             await recipeIngredientRepository.DeleteByRecipeIdAsync(id);
 
             List<RecipeIngredient> recipeIngredients = new List<RecipeIngredient>();
-            
+
             foreach (var ingredient in item.IngredientsId)
             {
                 recipeIngredients.Add(new RecipeIngredient
@@ -96,7 +96,7 @@ namespace RecipeBook.Bll.Services.Implementations
             var recipesId = (await recipeIngredientRepository.GetAllByIngredientsIdAsync(ingredientsId)).Select(recipeIngredient => recipeIngredient.RecipeId);
             var recipes = await recipeRepository.GetAllByCategoryAndNameAsync(categoryId, recipePartName);
 
-            if(recipesId == null)
+            if (recipesId == null)
             {
                 return recipes;
             }

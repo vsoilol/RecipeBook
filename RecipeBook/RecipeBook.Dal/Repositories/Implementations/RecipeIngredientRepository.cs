@@ -2,7 +2,6 @@
 using RecipeBook.Dal.Helpers.Interfaces;
 using RecipeBook.Dal.Mappers;
 using RecipeBook.Dal.Repositories.Interfaces;
-using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -29,7 +28,7 @@ namespace RecipeBook.Dal.Repositories.Implementations
                             VALUES";
 
                 StringBuilder sqlStringBuilder = new StringBuilder(sql);
-                var sqlParameters = new SqlParameter[items.Count()*2];
+                var sqlParameters = new SqlParameter[items.Count() * 2];
 
                 int i = 0;
                 foreach (var item in items)
@@ -41,7 +40,7 @@ namespace RecipeBook.Dal.Repositories.Implementations
                         Value = item.IngredientId,
                     };
 
-                    sqlParameters[i+1] = new SqlParameter($"recipeId{i}", SqlDbType.Int)
+                    sqlParameters[i + 1] = new SqlParameter($"recipeId{i}", SqlDbType.Int)
                     {
                         Value = item.RecipeId,
                     };

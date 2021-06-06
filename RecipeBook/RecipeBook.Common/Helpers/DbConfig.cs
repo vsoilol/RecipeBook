@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace RecipeBook.Common.Helpers
+﻿namespace RecipeBook.Common.Helpers
 {
     public class DbConfig
     {

@@ -2,10 +2,8 @@
 using RecipeBook.Common.Enums;
 using RecipeBook.Common.Models;
 using RecipeBook.Dal.Repositories.Interfaces;
-using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace RecipeBook.Bll.Services.Implementations
@@ -67,7 +65,7 @@ namespace RecipeBook.Bll.Services.Implementations
 
         public async Task<bool> IsUserExist(string email)
         {
-            if((await userRepository.GetByEmailAsync(email)) == null)
+            if ((await userRepository.GetByEmailAsync(email)) == null)
             {
                 return false;
             }

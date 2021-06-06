@@ -1,8 +1,6 @@
 ﻿using RecipeBook.Common.Enums;
 using RecipeBook.Common.Models;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace RecipeBook.Dal.Repositories.Interfaces

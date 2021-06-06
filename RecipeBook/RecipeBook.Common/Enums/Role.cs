@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace RecipeBook.Common.Enums
+﻿namespace RecipeBook.Common.Enums
 {
     public enum Role
     {

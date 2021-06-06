@@ -2,8 +2,8 @@
 using RecipeBook.Common.Models;
 using RecipeBook.Dal.Repositories.Interfaces;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using System.Data.SqlClient;
+using System.Threading.Tasks;
 
 namespace RecipeBook.Bll.Services.Implementations
 {
