@@ -2,7 +2,6 @@
 using DinkToPdf.Contracts;
 using RecipeBook.Common.Models;
 using System;
-using System.Collections.Generic;
 using System.Text;
 
 namespace RecipeBook.Bll.Converter
@@ -44,7 +43,7 @@ namespace RecipeBook.Bll.Converter
             return converter.Convert(pdf);
         }
 
-        public byte[] GeneratePdfFromString(string stylefilePath, Recipe recipe, Category category, IEnumerable<Ingredient> ingredients)
+        public byte[] GeneratePdfFromString(string stylefilePath, RecipeInfo recipe)
         {
             var htmlContent = new StringBuilder();
 
@@ -64,7 +63,7 @@ namespace RecipeBook.Bll.Converter
 
                                         <div class='form-group row mb-3'>
                                             <div class='col-md-4'>
-                                                <label class='text-primary font-weight-bold'>Название</label>
+                                                <label class='text-primary font-weight-bold'>Name</label>
                                             </div>
                                             <div class='col-md-8'>
                                                 <label>{recipe.Name}</label>
@@ -73,16 +72,16 @@ namespace RecipeBook.Bll.Converter
 
                                         <div class='form-group row mb-3'>
                                             <div class='col-md-4'>
-                                                <label class='text-primary font-weight-bold'>Категория</label>
+                                                <label class='text-primary font-weight-bold'>Category</label>
                                             </div>
                                             <div class='col-md-8'>
-                                                <label>{category.Name}</label>
+                                                <label>{recipe.Category.Name}</label>
                                             </div>
                                         </div>
 
                                         <div class='form-group row mb-3'>
                                             <div class='col-md-4'>
-                                                <label class='text-primary font-weight-bold'>Описание</label>
+                                                <label class='text-primary font-weight-bold'>Description</label>
                                             </div>
                                             <div class='col-md-8'>
                                                 <label>{recipe.Description}</label>
@@ -91,7 +90,7 @@ namespace RecipeBook.Bll.Converter
 
                                         <div class='form-group row mb-3'>
                                             <div class='col-md-4'>
-                                                <label class='text-primary font-weight-bold'>Время готовки</label>
+                                                <label class='text-primary font-weight-bold'>Cooking time</label>
                                             </div>
                                             <div class='col-md-8'>
                                                 <label>{recipe.CookingTime}</label>
@@ -101,7 +100,7 @@ namespace RecipeBook.Bll.Converter
 
                                         <div class='form-group row mb-3'>
                                             <div class='col-md-4'>
-                                                <label class='text-primary font-weight-bold'>Температура готовки</label>
+                                                <label class='text-primary font-weight-bold'>Cooking temperature</label>
                                             </div>
                                             <div class='col-md-8'>
                                                 <label>{recipe.CookingTemperature.ToString("0\u00B0C")}</label>
@@ -111,7 +110,7 @@ namespace RecipeBook.Bll.Converter
 
                                         <div class='form-group row mb-3'>
                                             <div class='col-md-4'>
-                                                <label class='text-primary font-weight-bold'>Последовательность действий</label>
+                                                <label class='text-primary font-weight-bold'>Sequence of actions</label>
                                             </div>
                                             <div class='col-md-8'>
                                                 <div class='border p-2'>
@@ -122,14 +121,14 @@ namespace RecipeBook.Bll.Converter
 
                                         <div class='form-group row mb-3'>
                                             <div class='col-md-4'>
-                                                <label class='text-primary font-weight-bold'>Ингредиенты</label>
+                                                <label class='text-primary font-weight-bold'>Ingredients</label>
                                             </div>
                                             <div class='col-md-8'>
                                                 <div class='border p-2'>");
 
             var listIngredients = new StringBuilder();
 
-            foreach (var ingredient in ingredients)
+            foreach (var ingredient in recipe.Ingredients)
             {
                 listIngredients.AppendFormat($@"<p>{ingredient.Name}, Вес - {ingredient.Weight.ToString("0.00")} г</p>");
             }

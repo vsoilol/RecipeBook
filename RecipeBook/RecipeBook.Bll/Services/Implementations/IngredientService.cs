@@ -2,6 +2,7 @@
 using RecipeBook.Common.Models;
 using RecipeBook.Dal.Repositories.Interfaces;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Threading.Tasks;
 
 namespace RecipeBook.Bll.Services.Implementations
@@ -22,7 +23,18 @@ namespace RecipeBook.Bll.Services.Implementations
 
         public async Task<bool> DeleteAsync(int id)
         {
-            return await ingredientRepository.DeleteAsync(id);
+            bool result;
+
+            try
+            {
+                result = await ingredientRepository.DeleteAsync(id);
+            }
+            catch (SqlException)
+            {
+                result = false;
+            }
+
+            return result;
         }
 
         public async Task<IEnumerable<Ingredient>> GetAllAsync()

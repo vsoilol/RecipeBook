@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using RecipeBook.Common.Helpers;
+using RecipeBook.Dal.Initial;
 using RecipeBook.Di;
 
 namespace RecipeBook.Web
@@ -34,10 +35,12 @@ namespace RecipeBook.Web
                 });
 
             services.AddControllersWithViews();
+
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IDbInitial dbInitializer)
         {
             if (env.IsDevelopment())
             {
@@ -52,6 +55,7 @@ namespace RecipeBook.Web
             app.UseCookiePolicy();
 
             app.UseRouting();
+            dbInitializer.InitialAdmin();
 
             app.UseAuthentication();
             app.UseAuthorization();
@@ -60,8 +64,10 @@ namespace RecipeBook.Web
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Recipe}/{action=GetAllRecipes}/{id?}");
+                    pattern: "{controller=Recipe}/{action=GetAllRecipesInfo}/{id?}");
             });
+
+            
         }
     }
 }

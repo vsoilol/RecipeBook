@@ -1,7 +1,4 @@
 ﻿using RecipeBook.Common.Enums;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace RecipeBook.Common.Models
 {

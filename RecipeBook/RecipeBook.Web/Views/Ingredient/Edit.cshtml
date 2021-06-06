@@ -1,0 +1,27 @@
+﻿@model Ingredient
+
+<br />
+<h2 class="text-primary text-center">@ViewBag.IngredientTitle ingredient</h2>
+<br />
+
+<form method="post" style="margin: 0 20%" asp-anti-forgery="true" class="box">
+
+    <div class="mb-3">
+        <label for="Name" class="form-label">Name of the ingredient</label>
+        <input type="text" class="form-control" id="Name" name="Name" value="@Model?.Name">
+    </div>
+
+    <div class="mb-3 val">
+        <label for="Weight" class="form-label">Ingredient Weight</label>
+        <input type="text" class="form-control valid" id="Weight" name="Weight" value="@Model?.Weight.ToString("0.00")">
+    </div>
+
+    <input type="hidden" name="Id" value="@Model?.Id" />
+
+    <div class="text-center">
+        <button type="submit" class="btn btn-primary">@ViewBag.IngredientTitle</button>
+    </div>
+
+</form>
+
+<script type="text/javascript" src="~/js/ingredients/script.js"></script>

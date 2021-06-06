@@ -1,19 +1,14 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using RecipeBook.Bll.Services.Implementations;
 using RecipeBook.Bll.Services.Interfaces;
-using RecipeBook.Common.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace RecipeBook.Web.Components
 {
     public class NavigationMenuViewComponent : ViewComponent
     {
-        private readonly IService<Category> categoryService;
+        private readonly ICategoryService categoryService;
 
-        public NavigationMenuViewComponent(IService<Category> categoryService)
+        public NavigationMenuViewComponent(ICategoryService categoryService)
         {
             this.categoryService = categoryService;
         }

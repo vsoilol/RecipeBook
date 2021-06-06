@@ -2,6 +2,7 @@
 using RecipeBook.Common.Models;
 using RecipeBook.Dal.Repositories.Interfaces;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -22,18 +23,24 @@ namespace RecipeBook.Bll.Services.Implementations
 
         public async Task<bool> DeleteAsync(int id)
         {
-            await recipeIngredientRepository.DeleteByRecipeIdAsync(id);
-            return await recipeRepository.DeleteAsync(id);
+            bool result;
+
+            try
+            {
+                result = await recipeIngredientRepository.DeleteByRecipeIdAsync(id);
+                result = await recipeRepository.DeleteAsync(id);
+            }
+            catch (SqlException)
+            {
+                result = false;
+            }
+
+            return result;
         }
 
         public async Task<IEnumerable<Recipe>> GetAllAsync()
         {
             var recipes = await recipeRepository.GetAllAsync();
-
-            foreach (var recipe in recipes)
-            {
-                recipe.IngredientsId = (await ingredientRepository.GetAllByRecipeIdAsync(recipe.Id)).Select(item => item.Id);
-            }
             return recipes;
         }
 
@@ -50,7 +57,7 @@ namespace RecipeBook.Bll.Services.Implementations
             await recipeIngredientRepository.DeleteByRecipeIdAsync(id);
 
             List<RecipeIngredient> recipeIngredients = new List<RecipeIngredient>();
-            
+
             foreach (var ingredient in item.IngredientsId)
             {
                 recipeIngredients.Add(new RecipeIngredient
@@ -89,7 +96,7 @@ namespace RecipeBook.Bll.Services.Implementations
             var recipesId = (await recipeIngredientRepository.GetAllByIngredientsIdAsync(ingredientsId)).Select(recipeIngredient => recipeIngredient.RecipeId);
             var recipes = await recipeRepository.GetAllByCategoryAndNameAsync(categoryId, recipePartName);
 
-            if(recipesId == null)
+            if (recipesId == null)
             {
                 return recipes;
             }

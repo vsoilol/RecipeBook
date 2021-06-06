@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace RecipeBook.Common.Models
+﻿namespace RecipeBook.Common.Models
 {
     public class Ingredient
     {
@@ -11,7 +7,5 @@ namespace RecipeBook.Common.Models
         public string Name { get; set; }
 
         public double Weight { get; set; }
-
-        public IEnumerable<int> RecipesId { get; set; }
     }
 }

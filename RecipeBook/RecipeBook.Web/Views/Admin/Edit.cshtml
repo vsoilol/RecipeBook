@@ -1,0 +1,37 @@
+﻿@model User
+
+<br />
+<h2 class="text-primary text-center">@ViewBag.AdminTitle User</h2>
+<br />
+
+
+
+<form method="post" style="margin: 0 20%" asp-anti-forgery="true" class="box">
+
+    <div asp-validation-summary="ModelOnly" class="mainError"></div>
+
+    <div class="mb-3">
+        <label for="Email" class="form-label">Email</label>
+        <input type="text" class="form-control" id="Email" name="Email" value="@Model?.Email">
+    </div>
+
+    <div class="mb-3 val">
+        <label for="Password" class="form-label">Password</label>
+        <input type="text" class="form-control valid" id="Password" name="Password" value="@Model?.Password">
+    </div>
+
+    <div class="mb-3 val">
+        <label for="Password" class="form-label">Confirm Password</label>
+        <input type="text" class="form-control valid" id="ConfirmPassword" name="ConfirmPassword" value="@Model?.Password">
+    </div>
+
+    <input type="hidden" name="Id" value="@Model?.Id" />
+    <input type="hidden" name="Role" value="@Model?.Role" />
+
+    <div class="text-center">
+        <button type="submit" class="btn btn-primary">@ViewBag.AdminTitle</button>
+    </div>
+
+</form>
+
+<script type="text/javascript" src="~/js/user/script.js"></script>

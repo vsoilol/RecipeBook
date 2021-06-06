@@ -1,38 +1,35 @@
-﻿@model SearchElements
+﻿@model SearchInfo
 
 <br />
-<h2 class="text-primary text-center">Поиск рецепта</h2>
+<h2 class="text-primary text-center">Search for a recipe</h2>
 <br />
 
-<form method="post" style="margin: 0 20%">
+<form method="post" style="margin: 0 20%" asp-anti-forgery="true" class="searchValid" asp-antiforgery="true">
 
     <div class="mb-3">
-        <label for="recipeName" class="form-label">Введите название рецепта</label>
-        <input type="text" class="form-control" id="recipeName" name="recipeName">
+        <label for="recipeName" class="form-label">Enter the name of the recipe</label>
+        <input type="text" class="form-control" id="RecipeName" name="RecipeName" autocomplete="off" asp-for="RecipeName">
+        <span asp-validation-for="RecipeName" class="error"></span>
+
     </div>
 
     <div class="mb-3">
-        <label class="form-label" for="CategoryId">Выберите категорию</label>
-        <select class="form-select form-select-sm" name="CategoryId" id="CategoryId">
-            @foreach (var category in Model.Categories)
-            {
-                <option value="@category.Id">@category.Name</option>
-            }
-        </select>
+        <label class="form-label" for="CategoryId">Select a category</label>
+        @await Component.InvokeAsync("SelectCategory")
+        <span asp-validation-for="CategoryId" class="error"></span>
+
     </div>
 
     <div class="mb-3">
-        <label class="form-label" for="IngredientsId">Выберите ингридиенты</label>
-        <select name="IngredientsId" id="IngredientsId" class="form-control" multiple="multiple">
-            @foreach (var ingredient in Model.Ingredients)
-            {
-                <option value="@ingredient.Id">@ingredient.Name</option>
-            }
-        </select>
+        <label class="form-label" for="IngredientsId">Choose the ingredients</label>
+        @await Component.InvokeAsync("SelectIngredient")
+        <span asp-validation-for="IngredientsId" class="error"></span>
+
+
     </div>
 
     <div class="text-center">
-        <button type="submit" class="btn btn-primary">Поиск</button>
+        <button type="submit" class="btn btn-primary">Search</button>
     </div>
-    
+
 </form>

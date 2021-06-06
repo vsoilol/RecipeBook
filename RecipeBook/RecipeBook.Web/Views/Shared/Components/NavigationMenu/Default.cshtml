@@ -1,14 +1,14 @@
 ﻿@model IEnumerable<Category>
 
 <a class="btn btn-block btn-secondary"
-   asp-action="GetAllRecipes"
+   asp-action="GetAllRecipesInfo"
    asp-controller="Recipe">
-    Главная
+    Show all
 </a>
 
 @foreach (var category in Model)
 {
-    <a class="btn btn-block btn-secondary m-1 mr-1 active"
+    <a class="btn btn-block btn-secondary m-1 mr-1"
        asp-action="GetAllRecipesByCategoryId"
        asp-controller="Recipe"
        asp-route-categoryId="@category.Id">

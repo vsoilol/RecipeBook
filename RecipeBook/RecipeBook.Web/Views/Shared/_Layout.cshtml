@@ -7,6 +7,7 @@
     <title>@ViewBag.Title</title>
 
 
+
     <link rel="stylesheet" href="~/lib/font-awesome/css/all.min.css" />
     <link rel="stylesheet" href="~/lib/twitter-bootstrap/css/bootstrap.min.css" />
 
@@ -17,7 +18,7 @@
 
 
 
-    <script type="text/javascript" src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="~/lib/twitter-bootstrap/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="~/bsMultiselect/js/BsMultiSelect.min.js"></script>
 
     <script type="text/javascript" src="~/js/site.js"></script>
@@ -29,13 +30,13 @@
 </head>
 
 <body>
-    
+
     <header class="head">
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark fixed-top border-bottom box-shadow mb-3">
             <div class="container">
 
-                <a class="navbar-brand" asp-controller="Recipe" asp-action="GetAllRecipes">
-                    Рецепты
+                <a class="navbar-brand" asp-controller="Recipe" asp-action="GetAllRecipesInfo">
+                    Recipes
                 </a>
 
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
@@ -45,29 +46,33 @@
                     <ul class="navbar-nav flex-grow-1">
 
                         <li class="nav-item">
-                            <a asp-controller="Search" asp-action="Index" class="nav-link">Поиск</a>
+                            <a asp-controller="Search" asp-action="Index" class="nav-link">Search</a>
                         </li>
 
                         @if (User.IsInRole(Role.Editor.ToString()) || User.IsInRole(Role.Admin.ToString()))
                         {
-                            <li class="nav-item dropdown text-white-50">
-                                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Редактор</a>
+                            <li class="dropdown">
+                                
+                                <a class="nav-link dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Editor
+                                </a>
 
-                                <div class="dropdown-menu">
-                                    <a class="dropdown-item" asp-controller="Editor" asp-action="GetAllRecipes">Рецепты</a>
-                                    <a class="dropdown-item" asp-controller="Category" asp-action="GetAll">Категории</a>
-                                    <a class="dropdown-item" asp-controller="Ingredient" asp-action="GetAll">Ингредиенты</a>
-
-                                </div>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                    <a class="dropdown-item" asp-controller="Recipe" asp-action="GetAllRecipesEdit">Recipes</a>
+                                    <a class="dropdown-item" asp-controller="Category" asp-action="GetAll">Categories</a>
+                                    <a class="dropdown-item" asp-controller="Ingredient" asp-action="GetAll">Ingredients</a>
+                                </ul>
+                                
                             </li>
                         }
 
                         @if (User.IsInRole(Role.Admin.ToString()))
                         {
                             <li class="nav-item">
-                                <a asp-controller="Admin" asp-action="GetAll" class="nav-link">Пользователи</a>
+                                <a asp-controller="Admin" asp-action="GetAll" class="nav-link">Users</a>
                             </li>
                         }
+
                     </ul>
 
                 </div>
