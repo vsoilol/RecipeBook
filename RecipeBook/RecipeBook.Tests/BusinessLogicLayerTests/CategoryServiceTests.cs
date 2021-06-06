@@ -9,6 +9,7 @@ using RecipeBook.Dal.Repositories.Interfaces;
 using RecipeBook.Web.Controllers;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -18,24 +19,70 @@ namespace RecipeBook.Tests.BusinessLogicLayerTests
     public class CategoryServiceTests
     {
         [Test]
-        public async Task CreateAsync_WhenCategoryHasData_ShouldReturnNewCategory()
+        public async Task GetByIdAsync_WhenIdIsCorrect_ShouldReturnCategoryById()
         {
             // Arrange
-            Mock<IRepository<Category>> mock = new Mock<IRepository<Category>>();
-            Category createCategory = new Category
-            {
-                Id = 6,
-                Name = "New Category",
-            };
+            Mock<ICategoryRepository> mock = new Mock<ICategoryRepository>();
+            int id = 2;
 
-            mock.Setup(m => m.CreateAsync(createCategory)).ReturnsAsync(createCategory);
+            mock.Setup(m => m.GetByIdAsync(id)).ReturnsAsync(GetSampleCategory().First(category => category.Id == id));
             CategoryService categoryService = new CategoryService(mock.Object);
 
             // Act
-            var result = await categoryService.CreateAsync(createCategory);
+            var result = await categoryService.GetByIdAsync(id);
 
             // Assert
-            result.Model.Should().BeEquivalentTo(GetSampleCategory());
+            Assert.That(result.Id, Is.EqualTo(id));
+        }
+
+        [Test]
+        public async Task GetAllAsync_WhenDataIsCorrect_ShouldReturnAllCategories()
+        {
+            // Arrange
+            Mock<ICategoryRepository> mock = new Mock<ICategoryRepository>();
+
+            mock.Setup(m => m.GetAllAsync()).ReturnsAsync(GetSampleCategory());
+            CategoryService categoryService = new CategoryService(mock.Object);
+
+            // Act
+            var result = await categoryService.GetAllAsync();
+
+            // Assert
+            result.Should().BeEquivalentTo(GetSampleCategory());
+        }
+
+        [Test]
+        public async Task DeleteAsync_WhenIdIsCorrect_ShouldReturnTrue()
+        {
+            // Arrange
+            Mock<ICategoryRepository> mock = new Mock<ICategoryRepository>();
+            int id = 3;
+
+            mock.Setup(m => m.DeleteAsync(id)).ReturnsAsync(GetSampleCategory().First(category => category.Id == id) != null);
+            CategoryService categoryService = new CategoryService(mock.Object);
+
+            // Act
+            var result = await categoryService.DeleteAsync(id);
+
+            // Assert
+            Assert.That(result);
+        }
+
+        [Test]
+        public async Task DeleteAsync_WhenIdIsNotCorrect_ShouldReturnFalse()
+        {
+            // Arrange
+            Mock<ICategoryRepository> mock = new Mock<ICategoryRepository>();
+            int id = 7;
+
+            mock.Setup(m => m.DeleteAsync(id)).ReturnsAsync(GetSampleCategory().FirstOrDefault(category => category.Id == id) != null);
+            CategoryService categoryService = new CategoryService(mock.Object);
+
+            // Act
+            var result = await categoryService.DeleteAsync(id);
+
+            // Assert
+            Assert.That(!result);
         }
 
         private IEnumerable<Category> GetSampleCategory()

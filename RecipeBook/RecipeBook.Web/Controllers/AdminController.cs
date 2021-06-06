@@ -17,12 +17,10 @@ namespace RecipeBook.Web.Controllers
     public class AdminController : Controller
     {
         private readonly IUserService userService;
-        private readonly IMapper mapper;
 
-        public AdminController(IUserService userService, IMapper mapper)
+        public AdminController(IUserService userService)
         {
             this.userService = userService;
-            this.mapper = mapper;
         }
 
         public async Task<IActionResult> GetAllAsync()
