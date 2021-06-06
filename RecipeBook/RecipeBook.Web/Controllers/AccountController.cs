@@ -40,32 +40,60 @@ namespace RecipeBook.Web.Controllers
 
                 if (user != null && user.Password == model.Password)
                 {
-                    await Authenticate(user); // аутентификация
+                    await Authenticate(user);
+                    return RedirectToAction("GetAllRecipes", "Recipe");
                 }
                 else
                 {
-                    ModelState.AddModelError("", "Некорректные логин и(или) пароль");
-                    return View(model);
+                    ModelState.AddModelError("", "Invalid username and(or) password");
+                }
+            }
+            return View(model);
+        }
+
+        [HttpGet]
+        public IActionResult Register()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Register(LoginModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                User user = await userService.GetByEmailAsync(model.Email);
+
+                if (user == null)
+                {
+                    user = new User { Email = model.Email, Password = model.Password, Role = Role.Editor };
+                    user = await userService.CreateAsync(user);
+
+                    await Authenticate(user); // аутентификация
+
+                    return RedirectToAction("GetAllRecipes", "Recipe");
+                }
+                else
+                {
+                    ModelState.AddModelError("", "User with this name already exists");
                 }
 
             }
-            return RedirectToAction("GetAllRecipes", "Recipe");
+            return View(model);
         }
 
         private async Task Authenticate(User user)
         {
-            // создаем один claim
             var claims = new List<Claim>
             {
                 new Claim(ClaimsIdentity.DefaultNameClaimType, user.Email),
                 new Claim(ClaimsIdentity.DefaultRoleClaimType, user.Role.ToString())
             };
 
-            // создаем объект ClaimsIdentity
             ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType,
                 ClaimsIdentity.DefaultRoleClaimType);
 
-            // установка аутентификационных куки
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id));
         }
 

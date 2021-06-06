@@ -1,0 +1,100 @@
+﻿@model LoginModel
+
+<br />
+
+<h2 class="text-primary mb-3">Create a new Account</h2>
+<div class="validation" asp-validation-summary="ModelOnly"></div>
+
+<div class="row">
+    <div class="col-md-8">
+        <form method="post" class="box">
+            <div>
+
+                <div class="form-group row mb-3">
+                    <div class="col-3">
+                        <label class="col-form-label">Email</label>
+                    </div>
+                    <div class="col-8">
+                        <input class="form-control" type="text" asp-for="Email" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="form-group row mb-3">
+                    <div class="col-3">
+                        <label class="col-form-label">Password</label>
+                    </div>
+                    <div class="col-8">
+                        <input class="form-control" type="text" asp-for="Password" />
+                        <span asp-validation-for="Password" class="text-danger" id="Password"></span>
+                    </div>
+                </div>
+
+                <div class="form-group row mb-3">
+                    <div class="col-3">
+                        <label class="col-form-label">Confirm Password</label>
+                    </div>
+                    <div class="col-8">
+                        <input class="form-control" type="text" name="ConfirmPassword" />
+                    </div>
+                </div>
+
+                <div class="form-group row mb-3">
+                    <div class="col-8 offset-3">
+                        <button type="submit" class="btn btn-primary form-control">Register</button>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+<script>
+        jQuery.validator.addMethod(
+        "regex",
+        function (value, element, regexp) {
+            if (regexp.constructor != RegExp)
+                regexp = new RegExp(regexp);
+            else if (regexp.global)
+                regexp.lastIndex = 0;
+            return this.optional(element) || regexp.test(value);
+        }, "erreur expression reguliere"
+    );
+
+
+    $(".box").validate({
+        rules: {
+            Email: {
+                required: true,
+                regex: "^[^@(Html.Raw("@"))\\s]+@(Html.Raw("@"))([^@(Html.Raw("@"))\\s]+\\.)+[^@(Html.Raw("@"))\\s]+$",
+            },
+            Password: {
+                required: true,
+                minlength: 4
+            },
+            ConfirmPassword: {
+                required: true,
+                minlength: 4,
+                equalTo: "#Password"
+            }
+        },
+        messages: {
+            Email: {
+                required: "The field must be filled",
+                regex: "Your email address must be in the format of name@domain.com",
+            },
+            Password: {
+                required: "The field must be filled",
+                minlength: "The length must be more than 4 characters"
+            },
+            ConfirmPassword: {
+                required: "The field must be filled",
+                minlength: "The length must be more than 4 characters",
+                equalTo: "Passwords must match"
+            }
+        },
+    });
+</script>
