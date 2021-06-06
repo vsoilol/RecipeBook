@@ -1,8 +1,11 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RecipeBook.Bll.Services.Interfaces;
 using RecipeBook.Common.Enums;
 using RecipeBook.Common.Models;
+using RecipeBook.Web.Mapper;
+using RecipeBook.Web.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,55 +17,76 @@ namespace RecipeBook.Web.Controllers
     public class AdminController : Controller
     {
         private readonly IUserService userService;
+        private readonly IMapper mapper;
 
-        public AdminController(IUserService userService)
+        public AdminController(IUserService userService, IMapper mapper)
         {
             this.userService = userService;
+            this.mapper = mapper;
         }
 
         public async Task<IActionResult> GetAllAsync()
         {
-            return View("Index", await userService.GetAllAsync());
+            return View("List", await userService.GetAllByRoleAsync(Role.Editor));
         }
 
         public async Task<IActionResult> DeleteAsync(int id)
         {
-            try
+            if (!(await userService.DeleteAsync(id)))
             {
-                await userService.DeleteAsync(id);
-            }
-            catch (Exception)
-            {
-                ModelState.AddModelError("", "Ошибка");
+                ModelState.AddModelError("", "The user cannot be deleted");
             }
 
             return await GetAllAsync();
         }
 
-        public IActionResult Create()
+        [HttpGet]
+        public IActionResult CreateAsync()
         {
-            return View();
+            ViewBag.AdminTitle = "Add";
+            return View("Edit");
         }
 
         [HttpPost]
         public async Task<IActionResult> CreateAsync(User user)
         {
-            user.Role = Role.Editor;
-            await userService.CreateAsync(user);
-            return await GetAllAsync();
+            if(await userService.IsUserExist(user.Email))
+            {
+                ViewBag.AdminTitle = "Add";
+                ModelState.AddModelError("", "User with this email already exists");
+            }
+            else
+            {
+                user.Role = Role.Editor;
+                await userService.CreateAsync(user);
+
+                return await GetAllAsync();
+            }
+            return View("Edit", user);
         }
 
-        public async Task<IActionResult> Update(int id)
+        [HttpGet]
+        public async Task<IActionResult> UpdateAsync(int id)
         {
-            return View(await userService.GetByIdAsync(id));
+            ViewBag.AdminTitle = "Edit";
+            return View("Edit", await userService.GetByIdAsync(id));
         }
 
         [HttpPost]
-        public async Task<IActionResult> Update(User user)
+        public async Task<IActionResult> UpdateAsync(User user, int id)
         {
-            await userService.UpdateAsync(user.Id, user);
+            if (await userService.IsUserExist(user.Email))
+            {
+                ViewBag.AdminTitle = "Edit";
+                ModelState.AddModelError("", "User with this email already exists");
+            }
+            else
+            {
+                await userService.UpdateAsync(id, user);
 
-            return await GetAllAsync();
+                return await GetAllAsync();
+            }
+            return View("Edit", user);
         }
     }
 }

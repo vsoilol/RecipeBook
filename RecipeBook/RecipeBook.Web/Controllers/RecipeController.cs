@@ -60,6 +60,7 @@ namespace RecipeBook.Web.Controllers
             return View("RecipeInfoFull", recipeInfo);
         }
 
+        [HttpGet]
         public async Task<IActionResult> UpdateAsync(int id)
         {
             var recipe = await recipeService.GetByIdAsync(id);
@@ -81,19 +82,24 @@ namespace RecipeBook.Web.Controllers
                 recipe.ImageData = await CreateImageAsync(recipeViewModel.ImageDataFile);
                 await recipeService.UpdateAsync(recipeViewModel.Id, recipe);
 
-                return RedirectToAction("GetAllRecipesEdit");
+                return await GetAllRecipesEditAsync();
             }
             else
             {
                 ViewBag.ActionTitle = "Edit";
                 return View("Edit", recipeViewModel);
             }
+            
         }
 
         public async Task<IActionResult> DeleteAsync(int id)
         {
-            await recipeService.DeleteAsync(id);
-            return RedirectToAction("GetAllRecipesEdit");
+            if (!(await recipeService.DeleteAsync(id)))
+            {
+                ModelState.AddModelError("", "The recipe cannot be deleted");
+            }
+            
+            return await GetAllRecipesEditAsync();
         }
 
         [HttpPost]
@@ -106,7 +112,7 @@ namespace RecipeBook.Web.Controllers
                 recipe.ImageData = await CreateImageAsync(recipeViewModel.ImageDataFile);
                 await recipeService.CreateAsync(recipe);
 
-                return RedirectToAction("GetAllRecipesEdit");
+                return await GetAllRecipesEditAsync();
             }
             else
             {
@@ -126,9 +132,7 @@ namespace RecipeBook.Web.Controllers
             using (var memoryStream = new MemoryStream())
             {
                 await imageData.CopyToAsync(memoryStream);
-                return memoryStream.ToArray();
-
-                
+                return memoryStream.ToArray(); 
             }
         }
     }

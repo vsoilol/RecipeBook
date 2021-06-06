@@ -5,7 +5,11 @@
 <br />
 
 
-<form form method="post" enctype="multipart/form-data" class="box">
+
+<form form method="post" enctype="multipart/form-data"  asp-antiforgery="true">
+
+    <div asp-validation-summary="ModelOnly" class="mainError"></div>
+
     <div class="border row">
         <div class="col-md-8 mt-3">
 
@@ -92,8 +96,6 @@
                 </div>
             </div>
 
-            <input type="hidden" name="id" value="@Model?.Id"/>
-
             <div class="form-group row mb-3">
                 <div class="col-md-4">
 
@@ -121,6 +123,3 @@
 
     </div>
 </form>
-
-
-<script type="text/javascript" src="~/js/recipe/script.js"></script>

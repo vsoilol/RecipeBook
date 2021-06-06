@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using RecipeBook.Common.Models;
 using System;
 using System.Collections.Generic;
@@ -10,8 +11,6 @@ namespace RecipeBook.Web.Models
 {
     public class RecipeViewModel
     {
-        public int Id { get; set; }
-
         [Required]
         public string Name { get; set; }
 
@@ -20,8 +19,6 @@ namespace RecipeBook.Web.Models
 
         [Required]
         public int CookingTemperature { get; set; }
-
-        public byte[] ImageData { get; set; }
 
         [Required]
         public IFormFile ImageDataFile { get; set; }
@@ -37,5 +34,10 @@ namespace RecipeBook.Web.Models
 
         [Required]
         public IEnumerable<int> IngredientsId { get; set; }
+
+        [HiddenInput(DisplayValue = false)]
+        public int Id { get; set; }
+
+        public byte[] ImageData { get; set; }
     }
 }

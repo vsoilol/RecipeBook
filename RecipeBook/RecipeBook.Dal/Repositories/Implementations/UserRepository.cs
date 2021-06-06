@@ -144,6 +144,49 @@ namespace RecipeBook.Dal.Repositories.Implementations
             }
         }
 
+        public async Task<IEnumerable<User>> GetAllByRoleAsync(Role role)
+        {
+            using (SqlConnection sqlConnection = new SqlConnection())
+            {
+                var sql = @"SELECT * FROM UserModel
+                            WHERE Role = @role";
+
+                var sqlParameters = new SqlParameter[]
+                {
+                    new SqlParameter("role", SqlDbType.Int)
+                    {
+                        Value = (int)role,
+                    },
+                };
+
+                var reader = await dbHelper.ExecuteReaderAsync(sqlConnection, sql, sqlParameters);
+
+                return await MapToListAsync(reader);
+            }
+        }
+
+        public async Task<User> GetByEmailAsync(string email)
+        {
+            using (SqlConnection sqlConnection = new SqlConnection())
+            {
+                var sql = @"SELECT * FROM UserModel
+                            WHERE Email = @email";
+
+                var sqlParameters = new SqlParameter[]
+                {
+                    new SqlParameter("email", SqlDbType.NVarChar)
+                    {
+                        Value = email,
+                    },
+                };
+
+                var reader = await dbHelper.ExecuteReaderAsync(sqlConnection, sql, sqlParameters);
+                await reader.ReadAsync();
+
+                return Map(reader);
+            }
+        }
+
         public User Map(SqlDataReader reader)
         {
             User user = null;
@@ -172,28 +215,6 @@ namespace RecipeBook.Dal.Repositories.Implementations
             reader.Close();
 
             return users;
-        }
-
-        public async Task<User> GetByEmailAsync(string email)
-        {
-            using (SqlConnection sqlConnection = new SqlConnection())
-            {
-                var sql = @"SELECT * FROM UserModel
-                            WHERE Email = @email";
-
-                var sqlParameters = new SqlParameter[]
-                {
-                    new SqlParameter("email", SqlDbType.NVarChar)
-                    {
-                        Value = email,
-                    },
-                };
-
-                var reader = await dbHelper.ExecuteReaderAsync(sqlConnection, sql, sqlParameters);
-                await reader.ReadAsync();
-
-                return Map(reader);
-            }
         }
     }
 }

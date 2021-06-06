@@ -31,7 +31,7 @@ namespace RecipeBook.Web.Controllers
             {
                 var recipes = await recipeService.GetAllSearchAsync(searchInfo.CategoryId, searchInfo.IngredientsId, searchInfo.RecipeName);
 
-                return View("~/Views/Recipe/List.cshtml", recipes);
+                return View("~/Views/Recipe/InfoAll.cshtml", recipes);
             }
             else
             {

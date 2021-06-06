@@ -1,11 +1,10 @@
-﻿@model IEnumerable<Category>
-
+﻿@model IEnumerable<User>
 
 <div class="border backgroundWhite">
 
     <div class="row align-items-center">
         <div class="col-6">
-            <h2 class="text-primary">Categories List</h2>
+            <h2 class="text-primary">Users List</h2>
         </div>
 
         <div class="col-6">
@@ -17,12 +16,12 @@
     </div>
     <br />
 
-    <div asp-validation-summary="ModelOnly" class="mainError"></div>
+    <div asp-validation-summary="ModelOnly"></div>
 
     <div>
         @if (Model.Count() == 0)
         {
-            <h3 class="text-center mt-3">No Categories</h3>
+            <h3 class="text-center mt-3">No Users</h3>
         }
         else
         {
@@ -31,36 +30,35 @@
                 <thead class="table-secondary">
 
                     <tr>
-                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Password</th>
                         <th>Action</th>
                     </tr>
 
                 </thead>
 
                 <tbody>
-
                     @foreach (var item in Model)
                     {
                         <tr>
-                            <td>@item.Name</td>
+                            <td>@item.Email</td>
+                            <td>@item.Password</td>
 
                             <td style="width: 150px">
                                 <div class="btn btn-group" role="group">
 
+                                    <a class="btn btn-primary" asp-action="Update" asp-route-id="@item.Id"><i class="fas fa-edit"></i></a>
                                     <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id"><i class="fas fa-trash-alt"></i></a>
 
                                 </div>
                             </td>
                         </tr>
                     }
-
-
-
                 </tbody>
             </table>
         }
 
-
     </div>
-
 </div>
+
+

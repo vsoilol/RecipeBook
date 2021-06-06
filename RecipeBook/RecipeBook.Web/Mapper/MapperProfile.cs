@@ -18,6 +18,9 @@ namespace RecipeBook.Web.Mapper
 
             CreateMap<Recipe, RecipeViewModel>();
             CreateMap<RecipeViewModel, Recipe>();
+
+            CreateMap<User, LoginModel>();
+            CreateMap<LoginModel, User>();
         }
     }
 }
