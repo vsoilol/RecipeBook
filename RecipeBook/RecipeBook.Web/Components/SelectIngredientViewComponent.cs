@@ -18,12 +18,12 @@ namespace RecipeBook.Web.Components
             this.ingredientService = ingredientService;
         }
 
-        public async Task<IViewComponentResult> InvokeAsync(IEnumerable<Ingredient> selectIngredients)
+        public async Task<IViewComponentResult> InvokeAsync(IEnumerable<int> selectIngredientsId)
         {
             SelectIngredientModel selectIngredientModel = new SelectIngredientModel
             {
                 AllIngredients = await ingredientService.GetAllAsync(),
-                SelectIngredients = selectIngredients,
+                SelectIngredientsId = selectIngredientsId,
             };
 
             return View(selectIngredientModel);

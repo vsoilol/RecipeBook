@@ -4,7 +4,7 @@
 <select class="form-select form-select-sm" name="CategoryId" id="CategoryId">
     @foreach (var category in Model.Categories)
     {
-        @if (category.Id == Model.SelectCategory?.Id)
+        @if (category.Id == Model.SelectCategoryId)
         {
             <option value="@category.Id" selected>@category.Name</option>
         }
@@ -12,6 +12,5 @@
         {
             <option value="@category.Id">@category.Name</option>
         }
-
     }
 </select>

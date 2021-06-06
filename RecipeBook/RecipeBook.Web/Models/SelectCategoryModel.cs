@@ -10,6 +10,6 @@ namespace RecipeBook.Web.Models
     {
         public IEnumerable<Category> Categories { get; set; }
 
-        public Category SelectCategory { get; set; }
+        public int SelectCategoryId { get; set; }
     }
 }

@@ -44,7 +44,7 @@ namespace RecipeBook.Bll.Converter
             return converter.Convert(pdf);
         }
 
-        public byte[] GeneratePdfFromString(string stylefilePath, Recipe recipe, Category category, IEnumerable<Ingredient> ingredients)
+        public byte[] GeneratePdfFromString(string stylefilePath, RecipeInfo recipe)
         {
             var htmlContent = new StringBuilder();
 
@@ -76,7 +76,7 @@ namespace RecipeBook.Bll.Converter
                                                 <label class='text-primary font-weight-bold'>Category</label>
                                             </div>
                                             <div class='col-md-8'>
-                                                <label>{category.Name}</label>
+                                                <label>{recipe.Category.Name}</label>
                                             </div>
                                         </div>
 
@@ -129,7 +129,7 @@ namespace RecipeBook.Bll.Converter
 
             var listIngredients = new StringBuilder();
 
-            foreach (var ingredient in ingredients)
+            foreach (var ingredient in recipe.Ingredients)
             {
                 listIngredients.AppendFormat($@"<p>{ingredient.Name}, Вес - {ingredient.Weight.ToString("0.00")} г</p>");
             }

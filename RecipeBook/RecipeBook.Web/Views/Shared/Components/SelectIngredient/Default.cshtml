@@ -5,7 +5,7 @@
 <select name="IngredientsId" id="IngredientsId" class="form-control" multiple="multiple">
     @foreach (var ingredient in Model.AllIngredients)
     {
-        @if (Model.SelectIngredients?.Contains(ingredient, new IngredientEqualityComparer()) ?? false)
+        @if (Model.SelectIngredientsId?.Contains(ingredient.Id) ?? false)
         {
             <option value="@ingredient.Id" selected>@ingredient.Name</option>
         }
@@ -16,12 +16,3 @@
 
     }
 </select>
-
-
-@*<script>
-
-        $.validator.addClassRules("IngredientsId", {
-            required: true
-        });
-
-    </script>*@

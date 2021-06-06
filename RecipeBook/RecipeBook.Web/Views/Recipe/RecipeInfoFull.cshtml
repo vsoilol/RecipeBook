@@ -1,20 +1,17 @@
-﻿@model RecipeViewModel
+﻿@model RecipeInfo
+
+
 
 <br />
 <h2 class="text-primary">@Model.Name</h2>
 <br />
 
-
-
     <div class="border row">
-
-       
-
         <div class="col-md-8 mt-3">
 
             <div class="form-group row mb-3">
                 <div class="col-md-4">
-                    <label class="text-primary font-weight-bold">Название</label>
+                    <label class="text-primary font-weight-bold">Name</label>
                 </div>
                 <div class="col-md-8">
                     <label>@Model.Name</label>
@@ -23,7 +20,7 @@
 
             <div class="form-group row mb-3">
                 <div class="col-md-4">
-                    <label class="text-primary font-weight-bold">Категория</label>
+                    <label class="text-primary font-weight-bold">Category</label>
                 </div>
                 <div class="col-md-8">
                     <label>@Model.Category.Name</label>
@@ -32,7 +29,7 @@
 
             <div class="form-group row mb-3">
                 <div class="col-md-4">
-                    <label class="text-primary font-weight-bold">Описание</label>
+                    <label class="text-primary font-weight-bold">Description</label>
                 </div>
                 <div class="col-md-8">
                     <label>@Model.Description</label>
@@ -41,7 +38,7 @@
 
             <div class="form-group row mb-3">
                 <div class="col-md-4">
-                    <label class="text-primary font-weight-bold">Время готовки</label>
+                    <label class="text-primary font-weight-bold">Cooking time</label>
                 </div>
                 <div class="col-md-8">
                     <label>@Model.CookingTime</label>
@@ -51,7 +48,7 @@
 
             <div class="form-group row mb-3">
                 <div class="col-md-4">
-                    <label class="text-primary font-weight-bold">Температура готовки</label>
+                    <label class="text-primary font-weight-bold">Cooking temperature</label>
                 </div>
                 <div class="col-md-8">
                     <label>@Model.CookingTemperature.ToString("0\u00B0C")</label>
@@ -61,7 +58,7 @@
 
             <div class="form-group row mb-3">
                 <div class="col-md-4">
-                    <label class="text-primary font-weight-bold">Последовательность действий</label>
+                    <label class="text-primary font-weight-bold">Sequence of actions</label>
                 </div>
                 <div class="col-md-8">
                     <div class="border p-2">
@@ -72,13 +69,13 @@
 
             <div class="form-group row mb-3">
                 <div class="col-md-4">
-                    <label class="text-primary font-weight-bold">Ингредиенты</label>
+                    <label class="text-primary font-weight-bold">Ingredients</label>
                 </div>
                 <div class="col-md-8">
                     <div class="border p-2">
                         @foreach (var ingredient in Model.Ingredients)
                         {
-                            <p>@ingredient.Name, Вес - @ingredient.Weight.ToString("0.00") г</p>
+                            <p>@ingredient.Name, Weight - @ingredient.Weight.ToString("0.00") gr</p>
                         }
                     </div>
                 </div>
@@ -91,10 +88,10 @@
 
                 </div>
                 <div class="col-md-4">
-                    <a asp-action="GetAllRecipes" class="btn btn-success form-control">Back To List</a>
+                    <a asp-action="GetAllRecipesInfo" class="btn btn-success form-control">Back To List</a>
                 </div>
                 <div class="col-md-4">
-                    <a asp-action="GetFile" asp-controller="Download" asp-route-id="@Model.Id" class="btn btn-primary form-control">Скачать</a>
+                    <a asp-action="GetFile" asp-controller="Download" asp-route-id="@Model.Id" class="btn btn-primary form-control">Download</a>
                 </div>
             </div>
         </div>

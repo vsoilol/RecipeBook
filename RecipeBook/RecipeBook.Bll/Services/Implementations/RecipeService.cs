@@ -29,11 +29,6 @@ namespace RecipeBook.Bll.Services.Implementations
         public async Task<IEnumerable<Recipe>> GetAllAsync()
         {
             var recipes = await recipeRepository.GetAllAsync();
-
-            foreach (var recipe in recipes)
-            {
-                recipe.IngredientsId = (await ingredientRepository.GetAllByRecipeIdAsync(recipe.Id)).Select(item => item.Id);
-            }
             return recipes;
         }
 

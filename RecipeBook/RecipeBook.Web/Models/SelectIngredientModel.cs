@@ -10,6 +10,6 @@ namespace RecipeBook.Web.Models
     {
         public IEnumerable<Ingredient> AllIngredients { get; set; }
 
-        public IEnumerable<Ingredient> SelectIngredients { get; set; }
+        public IEnumerable<int> SelectIngredientsId { get; set; }
     }
 }

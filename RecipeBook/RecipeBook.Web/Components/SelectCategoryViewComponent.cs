@@ -18,11 +18,11 @@ namespace RecipeBook.Web.Components
             this.categoryService = categoryService;
         }
 
-        public async Task<IViewComponentResult> InvokeAsync(Category selectCategory)
+        public async Task<IViewComponentResult> InvokeAsync(int selectCategoryId)
         {
             var category = new SelectCategoryModel
             {
-                SelectCategory = selectCategory,
+                SelectCategoryId = selectCategoryId,
                 Categories = await categoryService.GetAllAsync(),
             };
 

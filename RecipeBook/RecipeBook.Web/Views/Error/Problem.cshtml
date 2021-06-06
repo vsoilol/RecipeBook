@@ -1,0 +1,7 @@
+﻿@model HttpResponseMessage
+
+@{
+    ViewBag.Title = "Error " + Model.StatusCode;
+}
+
+<h2>@((int)Model.StatusCode) @Model.ReasonPhrase</h2>
