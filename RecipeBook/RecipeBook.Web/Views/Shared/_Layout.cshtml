@@ -1,48 +1,92 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - RecipeBook.Web</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <title>@ViewBag.Title</title>
+
+
+
+    <link rel="stylesheet" href="~/lib/font-awesome/css/all.min.css" />
+    <link rel="stylesheet" href="~/lib/twitter-bootstrap/css/bootstrap.min.css" />
+
+
+    <script type="text/javascript" src="~/lib/popper.js/umd/popper.min.js"></script>
+
+    <script type="text/javascript" src="~/lib/jquery/dist/jquery.min.js"></script>
+
+
+
+    <script type="text/javascript" src="~/lib/twitter-bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="~/bsMultiselect/js/BsMultiSelect.min.js"></script>
+
+    <script type="text/javascript" src="~/js/site.js"></script>
     <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/ErrorStyle.css" />
+
+    <script type="text/javascript" src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+
 </head>
+
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+
+    <header class="head">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark fixed-top border-bottom box-shadow mb-3">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">RecipeBook.Web</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+
+                <a class="navbar-brand" asp-controller="Recipe" asp-action="GetAllRecipesInfo">
+                    Recipes
+                </a>
+
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+
+                    @await Html.PartialAsync("_LoginPartial")
+
                     <ul class="navbar-nav flex-grow-1">
+
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a asp-controller="Search" asp-action="Index" class="nav-link">Search</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
+
+                        @if (User.IsInRole(Role.Editor.ToString()) || User.IsInRole(Role.Admin.ToString()))
+                        {
+                            <li class="dropdown">
+                                
+                                <a class="nav-link dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Editor
+                                </a>
+
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                    <a class="dropdown-item" asp-controller="Recipe" asp-action="GetAllRecipesEdit">Recipes</a>
+                                    <a class="dropdown-item" asp-controller="Category" asp-action="GetAll">Categories</a>
+                                    <a class="dropdown-item" asp-controller="Ingredient" asp-action="GetAll">Ingredients</a>
+                                </ul>
+                                
+                            </li>
+                        }
+
+                        @if (User.IsInRole(Role.Admin.ToString()))
+                        {
+                            <li class="nav-item">
+                                <a asp-controller="Admin" asp-action="GetAll" class="nav-link">Users</a>
+                            </li>
+                        }
+
                     </ul>
+
                 </div>
             </div>
         </nav>
     </header>
+
+
+
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
-
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2021 - RecipeBook.Web - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @RenderSection("Scripts", required: false)
 </body>
+
 </html>

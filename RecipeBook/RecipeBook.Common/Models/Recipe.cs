@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace RecipeBook.Common.Models
 {
@@ -10,7 +9,7 @@ namespace RecipeBook.Common.Models
 
         public string Name { get; set; }
 
-        public DateTime CookingTime { get; set; }
+        public TimeSpan CookingTime { get; set; }
 
         public int CookingTemperature { get; set; }
 
@@ -21,5 +20,7 @@ namespace RecipeBook.Common.Models
         public string Description { get; set; }
 
         public string SequenceActions { get; set; }
+
+        public IEnumerable<int> IngredientsId { get; set; }
     }
 }

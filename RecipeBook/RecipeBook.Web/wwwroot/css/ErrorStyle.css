@@ -1,0 +1,21 @@
+﻿.error {
+    color: red;
+    font-size: 12px;
+    font-style: italic;
+}
+
+.mainError {
+    list-style-type: none;
+    color: red;
+    font-size: 16px;
+    font-style: italic;
+}
+
+li {
+    list-style-type: none;
+}
+
+ul {
+    margin-left: 0; 
+    padding-left: 0; 
+}

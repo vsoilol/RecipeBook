@@ -1,9 +1,11 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using RecipeBook.Common.Helpers;
+using RecipeBook.Dal.Initial;
 using RecipeBook.Di;
 
 namespace RecipeBook.Web
@@ -23,11 +25,22 @@ namespace RecipeBook.Web
             services.Build();
             services.AddSingleton<DbConfig>(new DbConfig(Configuration.GetConnectionString("DefaultConnection")));
 
+            services.AddAutoMapper(typeof(Startup));
+
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options =>
+                {
+                    options.LoginPath = new Microsoft.AspNetCore.Http.PathString("/Account/Login");
+                    options.AccessDeniedPath = new Microsoft.AspNetCore.Http.PathString("/Account/Login");
+                });
+
             services.AddControllersWithViews();
+
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IDbInitial dbInitializer)
         {
             if (env.IsDevelopment())
             {
@@ -35,20 +48,26 @@ namespace RecipeBook.Web
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
+                app.UseExceptionHandler("/Error/Problem");
             }
+
             app.UseStaticFiles();
+            app.UseCookiePolicy();
 
             app.UseRouting();
+            dbInitializer.InitialAdmin();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Recipe}/{action=GetAllRecipesInfo}/{id?}");
             });
+
+            
         }
     }
 }

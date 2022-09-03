@@ -1,0 +1,127 @@
+﻿@model RecipeViewModel
+
+<br />
+<h2 class="text-primary">@ViewBag.ActionTitle recipe</h2>
+<br />
+
+
+
+<form form method="post" enctype="multipart/form-data"  asp-antiforgery="true">
+
+    <div asp-validation-summary="ModelOnly" class="mainError"></div>
+
+    <div class="border row">
+        <div class="col-md-8 mt-3">
+
+            <div class="form-group row mb-3">
+                <div class="col-md-4">
+                    <label class="text-primary font-weight-bold">Name</label>
+                </div>
+                <div class="col-md-8">
+                    <input type="text" class="form-control" id="Name" name="Name" value="@Model?.Name">
+                    <span asp-validation-for="Name" class="error"></span>
+                </div>
+            </div>
+
+            <div class="form-group row mb-3">
+                <div class="col-md-4">
+                    <label class="text-primary font-weight-bold">Category</label>
+                </div>
+                <div class="col-md-8">
+                    @await Component.InvokeAsync("SelectCategory", new { SelectCategoryId = Model?.CategoryId ?? 0 })
+                    <span asp-validation-for="CategoryId" class="error"></span>
+
+                </div>
+            </div>
+
+            <div class="form-group row mb-3">
+                <div class="col-md-4">
+                    <label class="text-primary font-weight-bold">Description</label>
+                </div>
+                <div class="col-md-8">
+                    <textarea id="Description" class="form-control" name="Description">@Model?.Description</textarea>
+                    <span asp-validation-for="Description" class="error"></span>
+                </div>
+            </div>
+
+            <div class="form-group row mb-3">
+                <div class="col-md-4">
+                    <label class="text-primary font-weight-bold">Cooking time</label>
+                </div>
+                <div class="col-md-8">
+                    <input type="time" class="form-control" id="CookingTime" name="CookingTime" value="@Model?.CookingTime">
+                    <span asp-validation-for="CookingTime" class="error"></span>
+                </div>
+            </div>
+
+            <div class="form-group row mb-3">
+                <div class="col-md-4">
+                    <label class="text-primary font-weight-bold">Image</label>
+                </div>
+                <div class="col-md-8">
+                    <input type="file" class="form-control" id="ImageDataFile" accept=".jpg, .jpeg, .png" name="ImageDataFile" />
+                    <span asp-validation-for="ImageDataFile" class="error"></span>
+                </div>
+            </div>
+
+
+            <div class="form-group row mb-3">
+                <div class="col-md-4">
+                    <label class="text-primary font-weight-bold">Cooking temperature</label>
+                </div>
+                <div class="col-md-8">
+                    <input type="number" class="form-control" id="CookingTemperature" name="CookingTemperature" value="@Model?.CookingTemperature">
+                    <span asp-validation-for="CookingTemperature" class="error"></span>
+                </div>
+            </div>
+
+
+            <div class="form-group row mb-3">
+                <div class="col-md-4">
+                    <label class="text-primary font-weight-bold">Sequence of actions</label>
+                </div>
+                <div class="col-md-8">
+                    <textarea id="SequenceActions" class="form-control" name="SequenceActions">@Model?.SequenceActions</textarea>
+                    <span asp-validation-for="SequenceActions" class="error"></span>
+                </div>
+            </div>
+
+            <div class="form-group row mb-3">
+                <div class="col-md-4">
+                    <label class="text-primary font-weight-bold">Ingredients</label>
+                </div>
+                <div class="col-md-8">
+                    @await Component.InvokeAsync("SelectIngredient", new { SelectIngredientsId = Model?.IngredientsId })
+                    <span asp-validation-for="IngredientsId" class="error"></span>
+                </div>
+            </div>
+
+            <div class="form-group row mb-3">
+                <div class="col-md-4">
+
+                </div>
+                <div class="col-md-4">
+                    <a asp-action="GetAllRecipesEdit" class="btn btn-success form-control">Back To List</a>
+                </div>
+                <div class="col-md-4">
+                    <button type="submit" class="btn btn-primary form-control">@ViewBag.ActionTitle</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-3 offset-1 d-none d-md-block">
+            @if (Model?.ImageData == null)
+            {
+                <img id="blah" width="100%" style="border-radius:5px;border:1px solid #bbb9b9;" />
+            }
+            else
+            {
+                <img id="blah" src="data:image/jpeg;base64,@Convert.ToBase64String(Model.ImageData)" width="100%" style="border-radius:5px;border:1px solid #bbb9b9;" />
+            }
+
+        </div>
+
+    </div>
+</form>
+
+<script type="text/javascript" src="~/js/recipe/script.js"></script>

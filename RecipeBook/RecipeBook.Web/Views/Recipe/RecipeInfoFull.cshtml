@@ -1,0 +1,109 @@
+﻿@model RecipeInfo
+
+
+
+<br />
+<h2 class="text-primary">@Model.Name</h2>
+<br />
+
+    <div class="border row">
+        <div class="col-md-8 mt-3">
+
+            <div class="form-group row mb-3">
+                <div class="col-md-4">
+                    <label class="text-primary font-weight-bold">Name</label>
+                </div>
+                <div class="col-md-8">
+                    <label>@Model.Name</label>
+                </div>
+            </div>
+
+            <div class="form-group row mb-3">
+                <div class="col-md-4">
+                    <label class="text-primary font-weight-bold">Category</label>
+                </div>
+                <div class="col-md-8">
+                    <label>@Model.Category.Name</label>
+                </div>
+            </div>
+
+            <div class="form-group row mb-3">
+                <div class="col-md-4">
+                    <label class="text-primary font-weight-bold">Description</label>
+                </div>
+                <div class="col-md-8">
+                    <label>@Model.Description</label>
+                </div>
+            </div>
+
+            <div class="form-group row mb-3">
+                <div class="col-md-4">
+                    <label class="text-primary font-weight-bold">Cooking time</label>
+                </div>
+                <div class="col-md-8">
+                    <label>@Model.CookingTime</label>
+                </div>
+            </div>
+
+
+            <div class="form-group row mb-3">
+                <div class="col-md-4">
+                    <label class="text-primary font-weight-bold">Cooking temperature</label>
+                </div>
+                <div class="col-md-8">
+                    <label>@Model.CookingTemperature.ToString("0\u00B0C")</label>
+                </div>
+            </div>
+
+
+            <div class="form-group row mb-3">
+                <div class="col-md-4">
+                    <label class="text-primary font-weight-bold">Sequence of actions</label>
+                </div>
+                <div class="col-md-8">
+                    <div class="border p-2">
+                        <label>@Model.SequenceActions</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group row mb-3">
+                <div class="col-md-4">
+                    <label class="text-primary font-weight-bold">Ingredients</label>
+                </div>
+                <div class="col-md-8">
+                    <div class="border p-2">
+                        @foreach (var ingredient in Model.Ingredients)
+                        {
+                            <p>@ingredient.Name, Weight - @ingredient.Weight.ToString("0.00") gr</p>
+                        }
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="form-group row mb-3">
+                <div class="col-md-4">
+
+                </div>
+                <div class="col-md-4">
+                    <a asp-action="GetAllRecipesInfo" class="btn btn-success form-control">Back To List</a>
+                </div>
+                <div class="col-md-4">
+                    <a asp-action="GetFile" asp-controller="Download" asp-route-id="@Model.Id" class="btn btn-primary form-control">Download</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-3 offset-1 d-none d-md-block">
+            <img src="data:image/jpeg;base64,@Convert.ToBase64String(Model.ImageData)" width="100%" style="border-radius:5px;border:1px solid #bbb9b9;" />
+        </div>
+
+    </div>
+
+
+
+
+
+

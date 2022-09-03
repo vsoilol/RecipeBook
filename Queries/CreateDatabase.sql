@@ -35,4 +35,12 @@ CREATE TABLE "RecipeIngredient"
 	FOREIGN KEY (RecipeId)  REFERENCES "Recipe" (Id)
 );
 
+CREATE TABLE "UserModel"
+(
+    Id INT PRIMARY KEY IDENTITY,
+    Password NVARCHAR(20) NOT NULL,
+    Email NVARCHAR(30) NOT NULL,
+    Role INT NOT NULL
+);
+
 
